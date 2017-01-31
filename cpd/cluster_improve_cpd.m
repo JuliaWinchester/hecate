@@ -5,6 +5,7 @@ errPath    = fullfile(outputDir, 'etc/cpd_improve/cluster/error/');
 outPath    = fullfile(outputDir, 'etc/cpd_improve/cluster/out/');
 scriptPath = fullfile(outputDir, 'etc/cpd_improve/cluster/script/');
 resultPath = fullfile(outputDir, 'etc/cpd_improve/job_mats/');
+cPLASTPath = '';
 
 disp('++++++++++++++++++++++++++++++++++++++++++++++++++');
 disp(['Submitting jobs for comparing flatten sample files in...' ]);
@@ -42,25 +43,25 @@ for k1=1:length(flatSamples)
                 'load(''' fullfile(cpdResultPath, 'cPMapsMatrix.mat') ''');' ...
                 'options.TextureCoords1Path = ''' fullfile(cpdResultPath, '/texture_coords_1/') ''';' ...
                 'options.TextureCoords2Path = ''' fullfile(cpdResultPath, '/texture_coords_2/') ''';' ...
-                'taxa_code = load(''' TaxaCode_path ''');' ... % address this first!!!
+                'taxa_code = load(''' TaxaCode_path ''');' ... % address this !!!
                 'options.TaxaCode = taxa_code.taxa_code;' ... % !!!
                 'options.ChunkSize = ' num2str(chunkSize) ';' ...
                 'options.cPLASTPath = ''' cPLASTPath ''';'];
             fprintf(fid, '%s ',scriptText);
             
             %%% create new matrix
-            if ~exist([resultPath 'rslt_mat_' num2str(jobID) '.mat'],'file')
-                Imprrslt = cell(GroupSize,GroupSize);
-                save([rslts_path 'rslt_mat_' num2str(jobID)], 'Imprrslt');
+            if ~exist(fullfile(resultPath, ['rslt_mat_' num2str(jobID) '.mat']),'file')
+                Imprrslt = cell(flatSamples);
+                save(fullfile(resultPath, ['rslt_mat_' num2str(jobID)]), 'Imprrslt');
             end
         end
-        filename1 = [samples_path taxa_code{k1} '.mat'];
-        filename2 = [samples_path taxa_code{k2} '.mat'];
+        filename1 = flatSamples{k1};
+        filename2 = flatSamples{k2};
         
         scriptText = [' Imprdist_landmarkfree_ongrid(''' ...
             filename1 ''', ''' ...
             filename2  ''', ''' ...
-            [rslts_path 'rslt_mat_' num2str(jobID)] ''', ' ...
+            fullfile(resultPath, ['rslt_mat_' num2str(jobID)]) ''', ' ...
             num2str(k1) ', ' ...
             num2str(k2) ', ''' ...
             ImprType ''', ''' ...
@@ -78,10 +79,11 @@ end
 fprintf(fid, '%s ', 'exit; "\n');
 fclose(fid);
 %%% qsub last script file
-jobname = ['cpdimprjob_' num2str(jobID)];
-serr = [errors_path 'e_job_' num2str(jobID)];
-sout = [outputs_path 'o_job_' num2str(jobID)];
-tosub = ['!qsub -N ' jobname ' -o ' sout ' -e ' serr ' ' scriptName ];
+jobName = ['cpdimprjob_' num2str(jobID)];
+err = fullfile(errPath, ['e_job_' num2str(jobID)]);
+out = fullfile(outPath, ['o_job_' num2str(jobID)]);
+tosub = ['!qsub -N ' jobName ' -o ' out ' -e ' err ' ' scriptName ];
 eval(tosub);
-% end
+
+end
 
