@@ -2,7 +2,7 @@ function flatSamples = cluster_flatten(meshNames, meshPaths, outputDir, codePath
 % CLUSTER_FLATTEN - Submit on_grid/flatten jobs to cluster
 
 disp('++++++++++++++++++++++++++++++++++++++++++++++++++');
-disp(['Submitting jobs for sampling mesh files in' meshDir '...' ]);
+disp('Submitting jobs for sampling mesh files');
 
 flatSamples = cell(1, length(meshNames));
 for k = 1:length(meshNames)

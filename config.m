@@ -1,5 +1,5 @@
-meshDir = '';
-outputDir = '';
+meshDir = '~/testmesh/';
+outputDir = '~/testmesh_hecout/';
 email = '';
 
 %%% parameters
