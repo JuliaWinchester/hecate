@@ -2,7 +2,8 @@
 clear all;
 close all;
 path(pathdef);
-addpath(path,genpath(fullfile(pwd, '/util/')));
+addpath(path,genpath(pwd));
+
 
 config;
 
@@ -14,8 +15,10 @@ touch(fullfile(outputDir, '/etc/flatten/cluster/script'));
 touch(fullfile(outputDir, '/etc/flatten/cluster/error'));
 touch(fullfile(outputDir, '/etc/flatten/cluster/out'));
 
+[meshNames, meshPaths] = get_mesh_names(meshDir, '.off');
+
 % invoke cluster_flatten.m
-[meshes, meshNames] = cluster_flatten(meshDir, outputDir, pwd);
+flatSamples = cluster_flatten(meshNames, meshPaths, outputDir, pwd);
 
 % Set-up from cluster_cPdist
 

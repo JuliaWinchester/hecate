@@ -8,15 +8,15 @@ flatSamples = cell(1, length(meshNames));
 for k = 1:length(meshNames)
     job_id = k;
     
-    if (exist(meshPaths{k}, 'file'))
+    samplePath = fullfile(outputDir, 'etc/flatten/samples/', ...
+        [meshNames{k} '.mat']);
+
+    if (exist(samplePath, 'file'))
         job_id = job_id+1;
         continue;
     end
     
-    samplePath = fullfile(outputDir, 'etc/flatten/samples/', ...
-        [meshNames{k} '.mat']);
     flatSamples{k} = samplePath;
-    
     scriptPath = fullfile(outputDir, 'etc/flatten/cluster/script/', ...
         ['script_' num2str(job_id)]);
     
