@@ -1,4 +1,5 @@
 function [V,F,Fs] = read_off(filename)
+% Try/catch modification by Julie Winchester (julie.winchester@duke.edu)
 
 fid = fopen(filename,'r');
 if( fid==-1 )
@@ -16,8 +17,6 @@ str = fgets(fid);
 [a,str] = strtok(str); Nv= str2num(a);
 [a,str] = strtok(str); Nf= str2num(a);
 
-
-
 [A,cnt] = fscanf(fid,'%f %f %f', 3*Nv);
 if cnt~=3*Nv
     warning('Problem in reading vertices.');
@@ -28,7 +27,11 @@ V = reshape(A, 3, cnt/3);
 F=zeros(20,Nf);
 Fs=zeros(1,Nf);
 for i=1:Nf
-    Fs(i)=fscanf(fid,'%d',1);
+	try
+    	Fs(i)=fscanf(fid,'%d',1);
+    catch
+    	error('Problem reading faces; possibly fewer faces present than file suggests?');
+    end
     F(1:Fs(i),i)=fscanf(fid,'%d',Fs(i))'+1;
 end
 F=F(1:max(Fs),:);
