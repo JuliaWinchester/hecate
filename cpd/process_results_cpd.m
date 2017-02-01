@@ -1,4 +1,4 @@
-function process_cluster_cpd(jobMatPath, outputDir, meshNum, chunkSize)
+function resultPath = process_cluster_cpd(jobMatPath, outputDir, meshNum, chunkSize)
 % PROCESS_RESULTS_CPD - Map, distance, and texture coords from cpd job matrices
 
 resultPath = fullfile(outputDir, '/etc/cpd/');

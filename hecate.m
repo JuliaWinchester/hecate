@@ -43,10 +43,10 @@ touch(fullfile(outputDir, 'etc/cpd/texture_coords_1'));
 touch(fullfile(outputDir, 'etc/cpd/texture_coords_2'));
 
 % invoke process_results_cpd.m
-process_results_cpd(cpdResultPath, outputDir, length(meshNames), cpdChunk);
+procResultsPath = process_results_cpd(cpdResultPath, outputDir, length(meshNames), cpdChunk);
 
 % Set-up for cluster_improve_cpd
-touch(fullfile(outputDir, '/etc/cpd_imrpove/job_mats'));
+touch(fullfile(outputDir, '/etc/cpd_improve/job_mats'));
 touch(fullfile(outputDir, '/etc/cpd_improve/cluster/script'));
 touch(fullfile(outputDir, '/etc/cpd_improve/cluster/error'));
 touch(fullfile(outputDir, '/etc/cpd_improve/cluster/out'));
@@ -56,4 +56,4 @@ delete(fullfile(outputDir, '/etc/cpd_improve/cluster/error/*'));
 delete(fullfile(outputDir, '/etc/cpd_improve/cluster/out/*'));
 
 % invoke cluster_improve_cpd.m
-[cpdImprResultPath, cpdImprChunk] = cluster_improve_cpd('MST', 'off', flatSamples, outputDir, cpdResultPath, 2);
+[cpdImprResultPath, cpdImprChunk] = cluster_improve_cpd('MST', 'off', flatSamples, outputDir, procResultPath, 2);

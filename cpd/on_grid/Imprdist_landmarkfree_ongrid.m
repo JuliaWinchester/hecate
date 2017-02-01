@@ -20,7 +20,7 @@ options.ProgressBar = 'off';
 
 tic;
 disp(['Improving ' GM.Aux.name ' vs ' GN.Aux.name ' using ' ImprType '...']);
-rslt = GM.ImproveMap(GN,cPdistMatrix,cPmapsMatrix,options.TaxaCode,options);
+rslt = GM.ImproveMap(GN, cPdistMatrix, cPmapsMatrix, TAXAind1, TAXAind2, options);
 Imprrslt{TAXAind1,TAXAind2} = rslt;
 save(rslt_mat,'Imprrslt');
 disp(['ImprDist(' GM.Aux.name ', ' GN.Aux.name ') = ' num2str(rslt.ImprDist) '.']);
