@@ -36,13 +36,13 @@ for k1=1:length(flatSamples)
             fprintf(fid, '#!/bin/bash\n');
             fprintf(fid, '#$ -S /bin/bash\n');
             scriptText = ['matlab -nodesktop -nodisplay -nojvm -nosplash -r '...
-                '" cd ' fullfile(pwd, 'on_grid') '; ' ...
+                '" cd ' fullfile(pwd, '/cpd/on_grid/') '; ' ...
                 'path(genpath(''../../util/''), path);'];
             fprintf(fid, '%s ',scriptText);
             
             %%% create new matrix
             if ~exist(fullfile(resultPath, ['rslt_mat_' num2str(jobID) '.mat']), 'file')
-                cPrslt = cell(length(meshNames));
+                cPrslt = cell(length(flatSamples));
                 save(fullfile(resultPath, ['rslt_mat_' num2str(jobID)]), 'cPrslt');
             end
         end
