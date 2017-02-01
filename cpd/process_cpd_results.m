@@ -1,11 +1,10 @@
-function resultPath = process_cpd_results(jobMatPath, outputDir, meshNum, chunkSize, fileSuffix)
+function resultPath = process_cpd_results(jobMatPath, resultPath, meshNum, chunkSize, fileSuffix)
 % PROCESS_CPD_RESULTS - Map, distance, and texture coords from cpd job matrices
 
 if nargin == 4
     fileSuffix = '';
 end
 
-resultPath = fullfile(outputDir, '/etc/cpd/');
 tc1Path = fullfile(resultPath, '/texture_coords_1/');
 tc2Path = fullfile(resultPath, '/texture_coords_2/');
 

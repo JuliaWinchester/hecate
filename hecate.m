@@ -7,7 +7,8 @@ addpath(path,genpath(pwd));
 
 config;
 
-% At some point add delete commands for starting over in directories
+%%%%%%%%% cPDistMST
+
 % Set-up for cluster_flatten.m
 touch(outputDir);
 touch(fullfile(outputDir, '/etc/flatten/samples'));
@@ -45,7 +46,7 @@ delete(fullfile(outputDir, 'etc/cpd/texture_coords_1/*'));
 delete(fullfile(outputDir, 'etc/cpd/texture_coords_2/*'));
 
 % invoke process_results_cpd.m
-procResultsPath = process_cpd_results(cpdResultPath, outputDir, length(meshNames), cpdChunk);
+procResultsPath = process_cpd_results(cpdResultPath, fullfile(outputDir, '/etc/cpd/'), length(meshNames), cpdChunk);
 
 % Set-up for cluster_improve_cpd
 touch(fullfile(outputDir, '/etc/cpd_improve/job_mats'));
@@ -66,4 +67,7 @@ touch(fullfile(outputDir, 'etc/cpd_improve/texture_coords_2'));
 delete(fullfile(outputDir, 'etc/cpd_improve/texture_coords_1/*'));
 delete(fullfile(outputDir, 'etc/cpd_improve/texture_coords_2/*'));
 
-procImprResultsPath = process_cpd_results(cpdImprResultPath, outputDir, length(meshNames), cpdImprChunk);
+procImprResultsPath = process_cpd_results(cpdImprResultPath, fullfile(outputDir, '/etc/cpd_improve/'), length(meshNames), cpdImprChunk);
+
+%%%%%%%%% HDM
+
