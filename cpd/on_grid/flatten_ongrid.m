@@ -12,7 +12,7 @@ G = Mesh('off', mesh_file);
 G.DeleteIsolatedVertex();
 sep_i = strfind(mesh_file, filesep);
 dot_i = strfind(mesh_file, '.');
-G.Aux.name = meshfile(sep_i(end)+1:dot_i(end)-1)
+G.Aux.name = mesh_file(sep_i(end)+1:dot_i(end)-1)
 [G.Aux.Area,G.Aux.Center] = G.Centralize('ScaleArea');
 options.GaussMaxLocalWidth = 12; %% for Clement data set
 options.GaussMinLocalWidth = 7; %% for Clement data set
