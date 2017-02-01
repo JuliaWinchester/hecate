@@ -2,7 +2,11 @@ meshDir = '~/testmesh3/';
 outputDir = '~/t/';
 email = '';
 
-%%% parameters
+%%% analysis control
+runContinuousProcrustesDistance   = 1;
+runConsistentSpectralSegmentation = 1;
+
+%%% HDM parameters
 BNN = 5;
 epsilon = 0.5;
 FBW = 3;
