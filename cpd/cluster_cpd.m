@@ -1,5 +1,5 @@
-function [resultPath, chunkSize] = cluster_cPdist(flatSamples, outputDir, chunkSize)
-% CLUSTER_CPDIST - Submit on_grid/cPdist jobs to cluster
+function [resultPath, chunkSize] = cluster_cpd(flatSamples, outputDir, chunkSize)
+% CLUSTER_CPD - Submit on_grid/cPdist jobs to cluster
 
 errPath    = fullfile(outputDir, 'etc/cpd/cluster/error/');
 outPath    = fullfile(outputDir, 'etc/cpd/cluster/out/');

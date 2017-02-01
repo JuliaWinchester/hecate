@@ -64,10 +64,11 @@ delete(fullfile(outputDir, '/etc/cpd_improve/cluster/out/*'));
 % set-up for second process_cpd_results.m
 touch(fullfile(outputDir, 'etc/cpd_improve/texture_coords_1'));
 touch(fullfile(outputDir, 'etc/cpd_improve/texture_coords_2'));
+delete(fullfile(outputDir, 'etc/cpd_improve/*'));
 delete(fullfile(outputDir, 'etc/cpd_improve/texture_coords_1/*'));
 delete(fullfile(outputDir, 'etc/cpd_improve/texture_coords_2/*'));
 
-procImprResultsPath = process_cpd_results(cpdImprResultPath, fullfile(outputDir, '/etc/cpd_improve/'), length(meshNames), cpdImprChunk);
+procImprResultsPath = process_cpd_results(cpdImprResultPath, fullfile(outputDir, '/etc/cpd_improve/'), length(meshNames), cpdImprChunk, '_MST');
 
 %%%%%%%%% HDM
 
