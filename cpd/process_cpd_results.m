@@ -25,11 +25,20 @@ for k1=1:meshNum
             job_id = job_id+1;
             load(fullfile(jobMatPath, ['rslt_mat_' num2str(job_id)]));
         end
-        cpDist(k1,k2) = cPrslt{k1,k2}.cPdist;
-        cpMaps{k1,k2} = cPrslt{k1,k2}.cPmap;
-        cpMapsInv{k1,k2} = cPrslt{k1,k2}.invcPmap;
-        tc1Temp{k1,k2} = cPrslt{k1,k2}.TextureCoords1;
-        tc2Temp{k1,k2} = cPrslt{k1,k2}.TextureCoords2;
+        if exist('cPrslt')
+            cpDist(k1,k2) = cPrslt{k1,k2}.cPdist;
+            cpMaps{k1,k2} = cPrslt{k1,k2}.cPmap;
+            cpMapsInv{k1,k2} = cPrslt{k1,k2}.invcPmap;
+            tc1Temp{k1,k2} = cPrslt{k1,k2}.TextureCoords1;
+            tc2Temp{k1,k2} = cPrslt{k1,k2}.TextureCoords2;
+        elseif exist('Imprrslt')
+            cpDist(k1,k2) = Imprrslt{k1,k2}.ImprDist;
+            cpMaps{k1,k2} = Imprrslt{k1,k2}.ImprMap;
+            cpMapsInv{k1,k2} = Imprrslt{k1,k2}.invImprMap;
+            tc1Temp{k1,k2} = Imprrslt{k1,k2}.TextureCoords1;
+            tc2Temp{k1,k2} = Imprrslt{k1,k2}.TextureCoords2;
+        end
+            
         
         cnt = cnt+1;
     end
