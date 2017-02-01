@@ -1,4 +1,4 @@
-function [rslt] = ImproveMap(GM,GN,DistMatrix,MapMatrix,TaxaCode,options)
+function [rslt] = ImproveMap(GM,GN,DistMatrix,MapMatrix,GMIdx,GNIdx,options)
 %IMPROVEMAP
 %   rslt.Gname1:            name of the first mesh
 %   rslt.Gname2:            name of the second mesh
@@ -35,9 +35,9 @@ end
 rslt.Gname1 = GM.Aux.name;
 rslt.Gname2 = GN.Aux.name;
 
-tempTaxaCode = cellfun(@(x) strtok(x, '_'), TaxaCode, 'UniformOutput', false);
-TAXAind = cellfun(@(name) find(strcmpi(tempTaxaCode,name)),{GM.Aux.name,GN.Aux.name},'UniformOutput',false);
-GroupSize = length(TaxaCode);
+TAXAind = {GMIdx, GNIdx};
+GroupSize = size(DistMatrix, 1);
+TaxaCode = 1:GroupSize;
 
 if ~strcmpi(ImprType,'Viterbi') && ~strcmpi(ImprType,'ComposedLAST') %%% MST or ComposedLAST
     ST = ConstructGraph(DistMatrix,ImprType,options);
