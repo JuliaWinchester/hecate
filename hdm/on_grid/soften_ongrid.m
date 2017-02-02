@@ -2,26 +2,25 @@ function soften_ongrid(G1,G2,soften_mat,TAXAind1,TAXAind2,options)
 %SOFTEN_ONGRID Summary of this function goes here
 %   Detailed explanation goes here
 
-G1 = load(G1); G1 = G1.G;
-G2 = load(G2); G2 = G2.G;
+load(soften_mat);
 
-taxa_code = options.TaxaCode;
-GroupSize = length(taxa_code);
-ChunkSize = options.ChunkSize;
+chunkSize = options.chunkSize;
 TextureCoords1Path = options.TextureCoords1Path;
 TextureCoords2Path = options.TextureCoords2Path;
 FibrEps = str2num(options.FibrEps);
 
-load(soften_mat);
-
-%%% useful inline functions
-ChunkIdx = @(TAXAind1,TAXAind2) ceil(((TAXAind1-1)*GroupSize+TAXAind2)/ChunkSize);
+G1 = load(G1); G1 = G1.G;
+G2 = load(G2); G2 = G2.G;
 
 %%% load texture coordinates
 load([TextureCoords1Path 'TextureCoords1_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
 load([TextureCoords2Path 'TextureCoords2_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
 TextureCoords1 = tc1{TAXAind1,TAXAind2};
 TextureCoords2 = tc2{TAXAind1,TAXAind2};
+groupSize = size(tc1, 1);
+
+%%% useful inline functions
+ChunkIdx = @(TAXAind1,TAXAind2) ceil(((TAXAind1-1)*groupSize+TAXAind2)/chunkSize);
 
 %%%
 tic;

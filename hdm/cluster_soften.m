@@ -47,16 +47,16 @@ for k1=1:length(flatSamples)
             %%% create new matrix
             if ~exist(fullfile(resultPath, ['soften_mat_' num2str(jobID) '.mat']),'file')
                 cPSoftMapsMatrix = cell(length(flatSamples));
-                save([soften_path 'soften_mat_' num2str(jobID)], 'cPSoftMapsMatrix');
+                save(fullfile(resultPath, ['soften_mat_' num2str(jobID)]), 'cPSoftMapsMatrix');
             end
         end
-        filename1 = [samples_path taxa_code{k1} '.mat'];
-        filename2 = [samples_path taxa_code{k2} '.mat'];
+        filename1 = flatSamples{k1};
+        filename2 = flatSamples{k2};
         
         scriptText = [' soften_ongrid(''' ...
             filename1 ''', ''' ...
             filename2  ''', ''' ...
-            [soften_path 'soften_mat_' num2str(jobID)] ''', ' ...
+            fullfile(resultPath, ['soften_mat_' num2str(jobID)]) ''', ' ...
             num2str(k1) ', ' ...
             num2str(k2) ', ' ...
             'options);'];
@@ -72,10 +72,10 @@ end
 fprintf(fid, '%s ', 'exit; "\n');
 fclose(fid);
 %%% qsub last script file
-jobname = ['TCjob_' num2str(jobID)];
-serr = [errors_path 'e_job_' num2str(jobID)];
-sout = [outputs_path 'o_job_' num2str(jobID)];
-tosub = ['!qsub -N ' jobname ' -o ' sout ' -e ' serr ' ' scriptName ];
+jobName = ['Sjob_' num2str(jobID)];
+err = fullfile(errPath, ['e_job_' num2str(jobID)]);
+out = fullfile(outPath, ['o_job_' num2str(jobID)]);
+tosub = ['!qsub -N ' jobName ' -o ' out ' -e ' err ' ' scriptName ];
 eval(tosub);
 % end
 

@@ -73,48 +73,61 @@ procImprResultsPath = process_cpd_results(cpdImprResultPath, fullfile(outputDir,
 %%%%%%%%% HDM
 
 % set-up for cluster_mapsoften.m
-%%% preparation
-clearvars;
+
+% invoke cluster_soften.m
+softenPath = cluster_soften(flatSamples, outputDir, procImprResultsPath, 1e-3, 25);
+
+% set-up for segment.m
+%% preparation
 close all;
 path(pathdef);
 addpath(path,genpath([pwd '/utils/']));
 
-%%% setup paths
+%% setup parameters
+BaseEps = 0.03;
+BNN = 5;
+FibrEps = 1e-3;
+MapType = 'cPMST';
+FeatureFix = 'Off';
+GroupLevel = 'Genus';
+% GroupNames = {'Purgatorius','Pronothodectes','Tupaia','Lemur',...
+%     'Microcebus','Cantius','Arctocebus','Adapis','Lepilemur',...
+%     'Eosimias','Cynocephalus','Leptacodon','Nycticebus'};
+% GroupNames = {'Euprimates','Primates','Dermoptera','Scandentia','Incertae sedis'};
+% GroupNames = {'Purgatorius'};
+GroupNames = {'Purgatorius','Pronothodectes'};
+% GroupNames = {'Purgatorius','Pronothodectes','Tupaia','Lemur'};
+% GroupNames = {'Purgatorius','Pronothodectes','Tupaia','Lemur',...
+%     'Microcebus','Cantius','Arctocebus','Adapis','Lepilemur',...
+%     'Eosimias','Cynocephalus'};
+% GroupNames = {'Donrussellia','Cheirogaleus','Avahi','Eulemur',...
+%     'Hapalemur','Loris','Nycticebus','Leptacodon'};
+% GroupNames = {'Tupaia','Galago'};
+% GroupNames = {'Purgatorius','Tupaia','Pronothodectes','Varecia','Microcebus','Lemur'};
+
+%% setup paths
 base_path = [pwd '/'];
 data_path = '../data/';
-rslt_path = '../cPdist/impr_results/';
-
-cluster_path = [base_path 'cluster/'];
-samples_path = '../cPdist/samples/PNAS/';
-
-TaxaCode_path = [data_path 'teeth_taxa_table.mat'];
-TextureCoords1_path = [rslt_path '/TextureCoords1/'];
-TextureCoords2_path = [rslt_path '/TextureCoords2/'];
-
-scripts_path = [cluster_path 'scripts/'];
-errors_path = [cluster_path 'errors/'];
-outputs_path = [cluster_path 'outputs/'];
-
+spreadsheet_path = [data_path 'ClassificationTable.xlsx'];
+sample_path = '../cPdist/samples/PNAS/';
+result_path = '../cPdist/impr_results/';
 soften_path = './soften/';
+% TextureCoords1Path = [result_path 'TextureCoords1/'];
+% TextureCoords2Path = [result_path 'TextureCoords2/'];
 
-%%% build folders if they don't exist
-touch(scripts_path);
-touch(errors_path);
-touch(outputs_path);
-touch(soften_path);
-
-%%% clean up paths
-command_text = ['!rm -f ' scripts_path '*']; eval(command_text); disp(command_text);
-command_text = ['!rm -f ' errors_path '*']; eval(command_text); disp(command_text);
-command_text = ['!rm -f ' outputs_path '*']; eval(command_text); disp(command_text);
-command_text = ['!rm -f ' soften_path '*']; eval(command_text); disp(command_text);
-
-%%% load taxa codes
-taxa_code = load(TaxaCode_path);
+%% load taxa codes
+taxa_file = [data_path 'teeth_taxa_table.mat'];
+taxa_code = load(taxa_file);
 taxa_code = taxa_code.taxa_code;
 GroupSize = length(taxa_code);
-chunk_size = 25; %% HDM
-FibrEps = 1e-3;
+ChunkSize = 25; %% PNAS % JMW changing this from 55 to 25 temporarily to match previous files
 
-% invoke cluster_soften.m
-softenPath = cluster_soften(fiberEps, chunkSize);
+%% options that control the diffusion eigenvector visualization
+options.sample_path = sample_path;
+options.DisplayLayout = [2,4];
+options.DisplayOrient = 'Horizontal';
+options.boundary = 'on';
+options.names = 'off';
+
+% invoke segment.m
+

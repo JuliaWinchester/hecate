@@ -21,7 +21,7 @@ for k1=1:length(flatSamples)
                 fclose(fid);
                 
                 %%% qsub
-                jobName = ['cpdimprjob_' num2str(jobID)];
+                jobName = ['Ijob_' num2str(jobID)];
                 err = fullfile(errPath, ['e_job_' num2str(jobID)]); 
                 out = fullfile(outPath, ['o_job_' num2str(jobID)]);
                 tosub = ['!qsub -N ' jobName ' -o ' out ' -e ' err ' ' ...
@@ -77,7 +77,7 @@ end
 fprintf(fid, '%s ', 'exit; "\n');
 fclose(fid);
 %%% qsub last script file
-jobName = ['cpdimprjob_' num2str(jobID)];
+jobName = ['Ijob_' num2str(jobID)];
 err = fullfile(errPath, ['e_job_' num2str(jobID)]);
 out = fullfile(outPath, ['o_job_' num2str(jobID)]);
 tosub = ['!qsub -N ' jobName ' -o ' out ' -e ' err ' ' scriptName ];
