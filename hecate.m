@@ -37,7 +37,7 @@ delete(fullfile(outputDir, '/etc/cpd/cluster/out/*'));
 
 
 % invoke cluster_cPdist.m
-[cpdResultPath, cpdChunk] = cluster_cPdist(flatSamples, outputDir, 2);
+[cpdResultPath, cpdChunk] = cluster_cPdist(flatSamples, outputDir, 25);
 
 % set-up for cPProcess_Rslts_landmarkfree_old.m
 touch(fullfile(outputDir, 'etc/cpd/texture_coords_1'));

@@ -20,8 +20,8 @@ ChunkIdx = @(TAXAind1,TAXAind2) ceil(((TAXAind1-1)*GroupSize+TAXAind2)/ChunkSize
 %%% load texture coordinates
 load([TextureCoords1Path 'TextureCoords1_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
 load([TextureCoords2Path 'TextureCoords2_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
-TextureCoords1 = TextureCoords1Matrix{TAXAind1,TAXAind2};
-TextureCoords2 = TextureCoords2Matrix{TAXAind1,TAXAind2};
+TextureCoords1 = tc1{TAXAind1,TAXAind2};
+TextureCoords2 = tc2{TAXAind1,TAXAind2};
 
 %%%
 tic;

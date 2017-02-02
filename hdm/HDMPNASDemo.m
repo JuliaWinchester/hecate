@@ -148,8 +148,8 @@ for j=1:GroupSize
         AugKernel12 = cPSoftMapsMatrix{TAXAind1, TAXAind2};
 %         load([TextureCoords1Path 'TextureCoords1_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
 %         load([TextureCoords2Path 'TextureCoords2_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
-%         TextureCoords1 = TextureCoords1Matrix{TAXAind1,TAXAind2};
-%         TextureCoords2 = TextureCoords2Matrix{TAXAind1,TAXAind2};
+%         TextureCoords1 = tc1{TAXAind1,TAXAind2};
+%         TextureCoords2 = tc2{TAXAind1,TAXAind2};
 %         [~,~,AugKernel12,~] = MapSoftenKernel(TextureCoords1,TextureCoords2,G2.F,G1.V,G2.V,FibrEps);
 %         [~,~,AugKernel21,~] = MapSoftenKernel(TextureCoords2,TextureCoords1,G1.F,G2.V,G1.V,FibrEps);
 %         AugKernel12 = max(AugKernel12,AugKernel21');
@@ -173,7 +173,7 @@ end
 
 H = sparse(DiffMatrixRowIdx,DiffMatrixColIdx,DiffMatrixVal,DiffMatrixSize,DiffMatrixSize);
 clear DiffMatrixColIdx DiffMatrixRowIdx DiffMatrixVal rowIdx colIdx val
-clear TextureCoords1Matrix TextureCoords2Matrix
+clear tc1 tc2
 
 %% eigen-decomposition
 sqrtD = sparse(1:DiffMatrixSize,1:DiffMatrixSize,sqrt(sum(H)));

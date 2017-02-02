@@ -35,8 +35,8 @@ rslt.Gname2 = GN.Aux.name;
 
 load([options.TextureCoords1Path 'TextureCoords1_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
 load([options.TextureCoords2Path 'TextureCoords2_mat_' num2str(ChunkIdx(TAXAind1,TAXAind2)) '.mat']);
-rslt.TextureCoords1 = TextureCoords1Matrix{TAXAind1,TAXAind2};
-rslt.TextureCoords2 = TextureCoords2Matrix{TAXAind1,TAXAind2};
+rslt.TextureCoords1 = tc1{TAXAind1,TAXAind2};
+rslt.TextureCoords2 = tc2{TAXAind1,TAXAind2};
 
 MapMN = knnsearch(rslt.TextureCoords2',rslt.TextureCoords1');
 disp('Performing Feature Fixing...');
