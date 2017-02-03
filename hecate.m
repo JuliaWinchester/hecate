@@ -4,8 +4,20 @@ close all;
 path(pathdef);
 addpath(path,genpath(pwd));
 
-
-config;
+settings;
+cfg = struct;
+cfg.email = email;
+cfg.collate_in_directories = collate_in_directories;
+cfg.path.meshDir = meshDir;
+cfg.path.outputDir = outputDir;
+cfg.param.BNN = BNN;
+cfg.param.epsilon = epsilon;
+cfg.param.FBW = FBW;
+cfg.param.delta = delta;
+cfg.param.eigCols = eigCols;
+cfg.param.segmentNum = segmentNum;
+cfg.param.kMeansMaxIter = kMeansMaxIter;
+cfg.param.chunkSize = chunkSize;
 
 %%%%%%%%% cPDistMST
 
@@ -72,7 +84,7 @@ procImprResultsPath = process_cpd_results(cpdImprResultPath, fullfile(outputDir,
 
 %%%%%%%%% HDM
 
-% set-up for cluster_mapsoften.m
+
 
 % invoke cluster_soften.m
 softenPath = cluster_soften(flatSamples, outputDir, procImprResultsPath, 1e-3, 25);
