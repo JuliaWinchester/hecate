@@ -1,5 +1,12 @@
-function [H, diffMatrixSize] = diffusion(BNN, BaseEps, vIdxCumSum, flatSamples, distMatPath, softenPath, chunkSize)
+function [H, diffMatrixSize] = diffusion(cfg, vIdxCumSum)
 % DIFFUSION - Build diffusion kernal matrix from distance matrix
+
+BNN         = cfg.params.BNN;
+BaseEps     = cfg.params.epsilon;
+chunkSize   = cfg.params.chunkSize;
+flatSamples = cfg.data.flatSamples;
+softenPath  = cfg.path.softenJobMats;
+distMatPath = fullfile(cfg.path.cpdImprove, 'cpDistMatrix.mat');
 
 %% process base diffusion
 tmp = load(distMatPath);

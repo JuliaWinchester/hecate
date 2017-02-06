@@ -1,10 +1,13 @@
 function [resultPath, chunkSize] = cluster_cpd(flatSamples, outputDir, chunkSize)
 % CLUSTER_CPD - Submit on_grid/cPdist jobs to cluster
 
-errPath    = fullfile(outputDir, 'etc/cpd/cluster/error/');
-outPath    = fullfile(outputDir, 'etc/cpd/cluster/out/');
-scriptPath = fullfile(outputDir, 'etc/cpd/cluster/script/');
-resultPath = fullfile(outputDir, 'etc/cpd/job_mats/');
+[chunkSize, flatSamples, flatPath, cpdPath, resultPath] = cfgLoad(cfgPath, ...
+    'params.chunkSize', 'data.flatSamples', 'path.flat', 'path.cpd', ...
+    'path.cpdJobMats'); 
+
+errPath    = fullfile(cpdPath, '/cluster/error/');
+outPath    = fullfile(cpdPath, '/cluster/out/');
+scriptPath = fullfile(cpdPath, '/cluster/script/');
 
 disp('++++++++++++++++++++++++++++++++++++++++++++++++++');
 disp(['Submitting jobs for comparing flatten sample files...' ]);

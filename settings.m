@@ -7,11 +7,15 @@ collate_in_directories = 0;
 runContinuousProcrustesDistance   = 1;
 runConsistentSpectralSegmentation = 1;
 
+%%% CPD parameters (do not change)
+imprType = 'MST';
+featureFix = 'off';
+
 %%% HDM parameters
 BNN = 5;
-epsilon = 0.5;
+epsilon = 0.03;
 FBW = 3;
-delta = 0.5;
+fiberEps = 1e-3;
 colNum = 15;
 segmentNum = 15;
 
