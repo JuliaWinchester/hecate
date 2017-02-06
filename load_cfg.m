@@ -3,7 +3,12 @@ function varargout = load_cfg(cfgPath, varargin)
 
 cfg = load(cfgPath);
 for i = 1:length(varargin)
-	varargout{i} = cfg.(varargin{1});
+	fields = strsplit(varargin, '.');
+	res = cfg;
+	for j = 1:length(fields)
+		res = res.(fields{j});
+	end
+	varargout{i} = res;
 end
 
 end
