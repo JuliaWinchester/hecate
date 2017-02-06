@@ -39,5 +39,5 @@ cfg.path.out               = fullfile(outputDir, '/output/');
 cfg.path.segments          = fullfile(outputDir, '/output/segments/');
 
 if cfgSave
-	save(cfg.path.cfgPath, 'cfg');
+	save(cfg.path.cfg, 'cfg');
 end

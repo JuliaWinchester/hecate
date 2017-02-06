@@ -1,7 +1,7 @@
 function flatSamples = cluster_flatten(meshNames, meshPaths, outputDir, codePath)
 % CLUSTER_FLATTEN - Submit on_grid/flatten jobs to cluster
 
-[meshNames, meshPaths, flatPath] = cfgLoad(cfgPath, 'data.meshNames', ...
+[meshNames, meshPaths, flatPath] = load_cfg(cfgPath, 'data.meshNames', ...
     'data.meshPaths', 'path.flat');
 
 disp('++++++++++++++++++++++++++++++++++++++++++++++++++');
