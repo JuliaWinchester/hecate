@@ -1,5 +1,5 @@
-meshDir = '~/testmesh3/';
-outputDir = '~/t/';
+meshDir = '~/pnas_auto3dgm_data/';
+outputDir = '~/p/';
 email = '';
 collate_in_directories = 0;
 
@@ -16,8 +16,10 @@ BNN = 5;
 epsilon = 0.03;
 FBW = 3;
 fiberEps = 1e-3;
-colNum = 15;
+eigCols = 15;
 segmentNum = 15;
+chunkSize = 25;
+kMeansMaxIter = 1000;
 
 %%% auto set
 codePath = pwd;

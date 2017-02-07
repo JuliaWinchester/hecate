@@ -2,7 +2,7 @@ function resultPath = cluster_soften(cfgPath)
 % CLUSTER_SOFTEN - Submit soften_ongrid jobs to cluster
 
 [fiberEps, chunkSize, flatSamples, cpdiPath, softenPath, resultPath] = ...
-    load_cfg(cfgPath, 'params.fiberEps', 'params.chunkSize', ...
+    load_cfg(cfgPath, 'param.fiberEps', 'param.chunkSize', ...
     'data.flatSamples', 'path.cpdImprove', 'path.soften', 'path.softenJobMats');
 
 errPath = fullfile(softenPath, '/cluster/error/');
@@ -26,7 +26,7 @@ for k1=1:length(flatSamples)
                 jobName = ['Sjob_' num2str(jobID)];
                 err = fullfile(errPath, ['e_job_' num2str(jobID)]);
                 out = fullfile(outPath, ['o_job_' num2str(jobID)]);
-                tosub = ['!qsub -N ' jobname ' -o ' out ' -e ' err ' ' ...
+                tosub = ['!qsub -N ' jobName ' -o ' out ' -e ' err ' ' ...
                          scriptName];
                 eval(tosub);
             end
