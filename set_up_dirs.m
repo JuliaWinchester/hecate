@@ -22,10 +22,10 @@ touch(fullfile(cfg.path.cpdImproveResults, '/cluster/out'));
 touch(fullfile(cfg.path.cpdImproveResults, '/texture_coords_1'));
 touch(fullfile(cfg.path.cpdImproveResults, '/texture_coords_2'));
 
-touch(fullfile(softenPath, '/mats/'));
-touch(fullfile(softenPath, '/cluster/script'));
-touch(fullfile(softenPath, '/cluster/error'));
-touch(fullfile(softenPath, '/cluster/out'));
+touch(fullfile(cfg.path.soften, '/job_mats/'));
+touch(fullfile(cfg.path.soften, '/cluster/script'));
+touch(fullfile(cfg.path.soften, '/cluster/error'));
+touch(fullfile(cfg.path.soften, '/cluster/out'));
 
 touch(cfg.path.outPath);
 touch(cfg.path.segmentsPath);
