@@ -29,6 +29,7 @@ cfg.path.meshDir           = meshDir;
 cfg.path.outputDir         = outputDir;
 cfg.path.cfg               = fullfile(outputDir, '/etc/cfg.mat');
 cfg.path.flat              = fullfile(outputDir, '/etc/flatten/');
+cfg.path.flatSample		   = fullfile(outputDir, '/etc/flatten/samples/');
 cfg.path.cpd               = fullfile(outputDir, '/etc/cpd/');
 cfg.path.cpdJobMats        = fullfile(outputDir, '/etc/cpd/job_mats/');
 cfg.path.cpdImprove        = fullfile(outputDir, '/etc/cpd_improve/');

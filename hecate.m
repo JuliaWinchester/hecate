@@ -26,7 +26,7 @@ process_cpd_results(cfg.path.cpdImproveJobmats, cfg.path.cpdImprove, ...
 %%%%%%%%% HDM
 softenPath = cluster_soften(cfg.path.cfg);
 
-vIdxCumSum = vertex_idx_cumsum(cfg.samplePath);
+vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 
 [H, diffMatrixSize] = diffusion(cfg, vIdxCumSum);
 

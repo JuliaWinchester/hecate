@@ -44,7 +44,7 @@ for j = 1:n
         G2 = load(flatSamples{k}); G2 = G2.G;
         
         %%% load texture coordinates
-        load(fullfile(softenPath, ['soften_mat_' num2str(chunk_idx(j, k, n, )) '.mat']));
+        load(fullfile(softenPath, ['soften_mat_' num2str(chunk_idx(j, k, n, chunkSize)) '.mat']));
         AugKernel12 = cPSoftMapsMatrix{j, k};
 
         % Is the next bit meant to be repeated?        
