@@ -1,4 +1,4 @@
-classdef SegResult
+classdef SegResult < handle
 % Class storing results from consistent spectral clustering of surface regions
 % and methods to export these results
 
@@ -16,7 +16,7 @@ classdef SegResult
 			for i = 1:length(flatSamples)
 				segIdx = kIdx(vIdxCumSum(i)+1:vIdxCumSum(i+1));
 			    tmp = load(flatSamples{i}); 
-			    obj.mesh{i} = tmp.G;
+			    obj.mesh{i} = SegMesh(tmp.G);
 			    obj.mesh{i}.segment = cell(max(segIdx), 1);
 			    V = obj.mesh{i}.V';
 			    F = obj.mesh{i}.F';

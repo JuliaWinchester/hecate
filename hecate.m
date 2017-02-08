@@ -28,11 +28,13 @@ softenPath = cluster_soften(cfg.path.cfg);
 
 vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 
-[H, diffMatrixSize] = diffusion(cfg, vIdxCumSum);
+[H, diffMatrixSize] = do_diffusion(cfg, vIdxCumSum);
 
 [U, ~, sqrtInvD] = eigen_decomp(H, diffMatrixSize);
 
-kIdx = csc(cfg, U, sqrtInvD);
+kIdx = do_csc(cfg, U, sqrtInvD);
 
-segByMesh = seg_by_mesh(cfg, kIdx);
+res = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum);
+
+
 
