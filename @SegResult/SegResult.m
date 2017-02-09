@@ -5,11 +5,13 @@ classdef SegResult < handle
 	properties
 	% Documentation needed
 		mesh = {};
+		data = struct;
+		cfg = struct;
 	end
 
 	methods
 
-		function obj = SegResult(flatSamples, kIdx, vIdxCumSum)
+		function obj = SegResult(flatSamples, kIdx, vIdxCumSum, cfg)
 		% Class constructor
 		
 			vIdxCumSum = [0; vIdxCumSum];
@@ -21,16 +23,16 @@ classdef SegResult < handle
 			    V = obj.mesh{i}.V';
 			    F = obj.mesh{i}.F';
 			    for j = 1:size(obj.mesh{i}.segment, 1)
-			        obj.mesh{i}.segment{j}.V = V(segIdx == j, :);
+			        obj.mesh{i}.segment{j}.V = V(segIdx == j, :)';
 			        vIdx = 1:length(V);
 			        segVertIdxOrig = vIdx(segIdx == j);
 			        segVertIdxNew = 1:length(segVertIdxOrig);
 			        segFaceIdxOrig = F(all(ismember(F, segVertIdxOrig), 2),:);
 			        segFaceIdxNew = changem(segFaceIdxOrig, segVertIdxNew, segVertIdxOrig);
-			        obj.mesh{i}.segment{j}.F = segFaceIdxNew;
+			        obj.mesh{i}.segment{j}.F = segFaceIdxNew';
 			    end
 			end
-		
+			obj.cfg = cfg;
 		end
 
 	end
