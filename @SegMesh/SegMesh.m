@@ -3,6 +3,7 @@ classdef SegMesh < Mesh
 
 	properties
 		segment = {};
+		R = {};
 	end
 
 	methods

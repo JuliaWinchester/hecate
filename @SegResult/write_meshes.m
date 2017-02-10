@@ -4,9 +4,9 @@ function write_meshes(SegResult, dirPath)
 	touch(dirPath);
 
 	for i = 1:length(SegResult.mesh)
-		disp(['Saving mesh ' SegResult.mesh{i}.Aux.name ' as OFF file...');
+		disp(['Saving mesh ' SegResult.mesh{i}.Aux.name ' as OFF file...']);
 		write_off(fullfile(dirPath, [SegResult.mesh{i}.Aux.name '.off']), ... 
-			segResult.mesh{i}.V, segResult.mesh{i}.F);
+			SegResult.mesh{i}.V, SegResult.mesh{i}.F);
 	end
 	
 end

@@ -33,6 +33,7 @@ classdef SegResult < handle
 			    end
 			end
 			obj.cfg = cfg;
+			
 		end
 
 	end
