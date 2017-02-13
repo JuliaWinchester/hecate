@@ -24,6 +24,6 @@ function write_seg_detail_csv(SegResult, filePath)
 		'proportional_area'};
 	dataTable = table(meshName, segNum, segNFace, segNVert, segArea, ...
 		segPercArea, 'VariableNames', varNames);
-	writetable(dataTable, filepath)
+	writetable(dataTable, filepath);
 
 end

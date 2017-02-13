@@ -1,5 +1,7 @@
-function R = rigid_motion(SegResult, mapsMatPath)
+function rigid_motion(SegResult)
 % RIGID_MOTION - flatSamples x flatSamples cell array of rotation matrices
+
+mapsMatPath = fullfile(SegResult.cfg.path.cpdImprove, 'cpMapsMatrix_MST.mat');
 
 cpdMap = load(mapsMatPath);
 if isfield(cpdMap, 'cpMaps')
@@ -8,11 +10,11 @@ elseif isfield(cpdMap, 'ImprMaps')
 	cpdMap = cpdMap.ImprMaps;
 end
 
-R = cell(length(SegResult.mesh));
+SegResult.R = cell(length(SegResult.mesh));
 for i = 1:length(SegResult.mesh)
 	for j = 1:length(SegResult.mesh)
 		[~, tmpR, ~] = MapToDist(SegResult.mesh{i}.V, SegResult.mesh{j}.V, cpdMap{i, j}, SegResult.mesh{i}.Aux.VertArea);
-		R{i, j} = tmpR;
+		SegResult.R{i, j} = tmpR;
 	end
 end
 

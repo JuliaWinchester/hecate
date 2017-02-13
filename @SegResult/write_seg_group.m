@@ -1,7 +1,8 @@
-function write_seg_group(SegResult, filePath, nRow, alignTeeth, R)
+function write_seg_group(SegResult, filePath, nRow, alignTeeth)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
 	if alignTeeth
+		R = SegResult.rigid_motion();
 		newMesh = cell(length(SegResult.mesh), 1);
 		for i = 1:length(SegResult.mesh)
 			newMesh{i}.V = R{i, 1} * SegResult.mesh{i}.V;
@@ -24,6 +25,7 @@ function write_seg_group(SegResult, filePath, nRow, alignTeeth, R)
 	end
 
 	nMesh = length(newMesh);
+	nRow = floor(sqrt(nMesh));
 	nCol = ceil(nMesh/nRow);
 	xMax = max(cellfun(@(m) max(m.V(1, :)) - min(m.V(1, :)), newMesh));
 	yMax = max(cellfun(@(m) max(m.V(2, :)) - min(m.V(2, :)), newMesh));

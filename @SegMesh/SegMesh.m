@@ -3,7 +3,7 @@ classdef SegMesh < Mesh
 
 	properties
 		segment = {};
-		R = {};
+		segmentIdx = [];
 	end
 
 	methods
