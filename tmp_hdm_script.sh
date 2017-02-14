@@ -1,1 +1,2 @@
-matlab tmp_hdm_script
+cd ~/hecate;
+matlab -r tmp_hdm_script

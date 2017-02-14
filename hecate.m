@@ -6,8 +6,9 @@ close all;
 path(pathdef);
 addpath(path,genpath(pwd));
 
-cfg = get_cfg(cfgSave = 1);
-set_up_dirs(cfg, fileDel = 1);
+cfg = get_cfg();
+set_up_dirs(cfg, 1);
+save(cfg.path.cfg, 'cfg');
 
 %% Continuous Procrustes distance
 %cluster_run('cluster_flatten', {cfg.path.cfg}, pwd, cfg.path.flat, ...

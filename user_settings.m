@@ -8,10 +8,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Directory of input mesh files
-meshDir = '~/pnas_auto3dgm_data/';
+meshDir = '~/small/';
 
 % Directory for output files
-outputDir = '~/p/';
+outputDir = '~/small_out/';
 
 % Optional email for alerting when cluster jobs finish
 email = '';
@@ -25,7 +25,7 @@ dirCollate = 0;
 % How many meshes to display segments from in representative MATLAB figure
 meshDisplayNumber = 10;
 
-%% Control which analyses run
+%% Control which analyses run (not currently implemented)
 runContinuousProcrustesDistance = 1;
 runDiffusionMapSegmentation = 1;
 

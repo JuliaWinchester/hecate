@@ -1,4 +1,4 @@
-function cfg = get_cfg(cfgSave)
+function cfg = get_cfg()
 % GET_CFG - Returns cfg struct with fields using settings.m entries, saves it
 
 user_settings;
@@ -13,10 +13,11 @@ cfg.msc.emailAddress = email;
 cfg.msc.dirCollate   = dirCollate;
 cfg.msc.nMeshDisplay = meshDisplayNumber;
 
-if cfg.msg.emailAddress == ''
-	cfg.msc.email = 0
+if cfg.msc.emailAddress == ''
+	cfg.msc.email = 0;
 else
-	cfg.msc.email = 1
+	cfg.msc.email = 1;
+end
 
 % Params
 cfg.param.chunkSize     = chunkSize;
@@ -29,7 +30,7 @@ cfg.param.fiberEps      = fiberEps;
 cfg.param.eigCols       = eigCols;
 cfg.param.segmentNum    = segmentNum;
 cfg.param.kMeansMaxIter = kMeansMaxIter;
-cfg.param.alignTeeth	= alignTeeth
+cfg.param.alignTeeth	= alignTeeth;
 
 % Paths
 cfg.path.meshDir           = meshDir;
@@ -44,7 +45,3 @@ cfg.path.cpdImproveJobMats = fullfile(outputDir, '/etc/cpd_improve/job_mats/');
 cfg.path.soften            = fullfile(outputDir, '/etc/soften/');
 cfg.path.softenJobMats	   = fullfile(outputDir, '/etc/soften/job_mats/')
 cfg.path.out               = fullfile(outputDir, '/output/');
-
-if cfgSave
-	save(cfg.path.cfg, 'cfg');
-end
