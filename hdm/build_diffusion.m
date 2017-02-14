@@ -1,4 +1,4 @@
-function [H, diffMatrixSize] = diffusion(cfg, vIdxCumSum)
+function [H, diffMatrixSize] = build_diffusion(cfg, vIdxCumSum)
 % DIFFUSION - Build diffusion kernal matrix from distance matrix
 
 BNN         = cfg.param.BNN;

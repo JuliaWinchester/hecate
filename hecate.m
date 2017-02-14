@@ -1,3 +1,5 @@
+%% Script to run software analysis steps
+
 % Set up working environment: add paths, create all necessary subdirectories
 clear all;
 close all;
@@ -7,34 +9,55 @@ addpath(path,genpath(pwd));
 cfg = get_cfg(cfgSave = 1);
 set_up_dirs(cfg, fileDel = 1);
 
-%%%%%%%%% cPDistMST
+%% Continuous Procrustes distance
+%cluster_run('cluster_flatten', {cfg.path.cfg}, pwd, cfg.path.flat, ...
+%	'flatten', 1, '', cfg.msc.email, cfg.msc.emailAddress)
 flatSamples = cluster_flatten(cfg.path.cfg);
 
 cfg.data.flatSamples = flatSamples;
 save(cfg.path.cfg, 'cfg');
 
-cluster_cpd(cfg.path.cfg);
+%cluster_cpd(cfg.path.cfg);
+cluster_run('cluster_cpd', {cfg.path.cfg}, pwd, cfg.path.cpd, ...
+	'cpd', 1, 'fjob*', cfg.msc.email, cfg.msc.emailAddress);
 
-process_cpd_results(cfg.path.cpdJobMats, cfg.path.cpd, length(flatSamples), ...
-	cfg.params.chunkSize);
+pcrArgs = {cfg.path.cpdJobMats, cfg.path.cpd, length(flatSamples), ...
+	cfg.params.chunkSize};
+cluster_run('process_cpd_results', pcrArgs, pwd, cfg.path.cpd, ...
+	'pcr', 1, 'cpdjob*', cfg.msc.email, cfg.msc.emailAddress);
 
-cluster_improve_cpd(cfg.path.cfg);
+%process_cpd_results(cfg.path.cpdJobMats, cfg.path.cpd, length(flatSamples), ...
+%	cfg.params.chunkSize);
 
-process_cpd_results(cfg.path.cpdImproveJobmats, cfg.path.cpdImprove, ...
-	length(flatSamples), cfg.params.chunkSize, '_MST');
+cluster_run('cluster_improve_cpd', {cfg.path.cfg}, pwd, cfg.path.cpdImprove, ...
+	'cpdi', 1, 'pcr', cfg.msc.email, cfg.msc.emailAddress);
+%cluster_improve_cpd(cfg.path.cfg);
 
-%%%%%%%%% HDM
-softenPath = cluster_soften(cfg.path.cfg);
+pcriArgs = {cfg.path.cpdImproveJobMats, cfg.path.cpdImprove, ...
+	length(flatSamples), cfg.params.chunkSize, '_MST'};
+cluster_run('process_cpd_results', pcriArgs, pwd, cfg.path.cpdImprove, ...
+	'pcri', 1, 'ijob*', cfg.msc.email, cfg.msc.emailAddress);
+
+%process_cpd_results(cfg.path.cpdImproveJobmats, cfg.path.cpdImprove, ...
+%	length(flatSamples), cfg.params.chunkSize, '_MST');
+
+%% Diffusion map and consistent spectral clustering
+% softenPath = cluster_soften(cfg.path.cfg);
+cluster_run('cluster_soften', {cfg.path.cfg}, pwd, cfg.path.soften, ...
+	'soften', 1, 'pcri', cfg.msc.email, cfg.msc.emailAddress);
 
 vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 
-[H, diffMatrixSize] = do_diffusion(cfg, vIdxCumSum);
+[H, diffMatrixSize] = build_diffusion(cfg, vIdxCumSum);
 
 [U, ~, sqrtInvD] = eigen_decomp(H, diffMatrixSize);
 
-kIdx = do_csc(cfg, U, sqrtInvD);
+kIdx = spectral_cluster(cfg, U, sqrtInvD);
 
-res = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum, cfg);
+%% Constructing and exporting results
+result = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum, cfg);
+result.calc_data();
+result.export(cfg.param.alignTeeth);
 
 
 

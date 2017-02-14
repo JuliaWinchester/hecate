@@ -1,29 +1,9 @@
-function write_seg_group(SegResult, filePath, alignTeeth)
+function write_seg_group(SegResult, filePath)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
-	if alignTeeth
-		SegResult.rigid_motion();
-		newMesh = cell(length(SegResult.mesh), 1);
-		for i = 1:length(SegResult.mesh)
-			newMesh{i}.V = R{i, 1} * SegResult.mesh{i}.V;
-			if det(R{i, 1}) < 0
-				newMesh{i}.F = flipud(SegResult.mesh{i}.F);
-			else
-				newMesh{i}.F = SegResult.mesh{i}.F;
-			end
-			for j = 1:length(SegResult.mesh{i}.segment)
-				newMesh{i}.segment{j}.V = R{i, 1} * SegResult.mesh{i}.segment{j}.V;
-				if det(R{i, 1}) < 0
-					newMesh{i}.segment{j}.F = flipud(SegResult.mesh{i}.segment{j}.F);
-				else
-					newMesh{i}.segment{j}.F = SegResult.mesh{i}.segment{j}.F;
-				end
-			end
-		end
-	else
-		newMesh = SegResult.mesh;
-	end
-
+	disp('Writing segment sample group OFF...');
+	newMesh = SegResult.mesh;
+	
 	nMesh = length(newMesh);
 	nRow = floor(sqrt(nMesh));
 	nCol = ceil(nMesh/nRow);

@@ -1,4 +1,4 @@
-function idx = csc(cfg, U, sqrtInvD)
+function idx = spectral_cluster(cfg, U, sqrtInvD)
 % CSC - Consistent spectral clustering of surface regions
 
 nSegments     = cfg.param.segmentNum;

@@ -1,7 +1,7 @@
 function cfg = get_cfg(cfgSave)
 % GET_CFG - Returns cfg struct with fields using settings.m entries, saves it
 
-settings;
+user_settings;
 
 % Data
 [meshNames, meshPaths] = get_mesh_names(meshDir, '.off');
@@ -9,8 +9,14 @@ cfg.data.meshNames = meshNames;
 cfg.data.meshPaths = meshPaths;
 
 % Misc
-cfg.msc.email      = email;
-cfg.msc.dirCollate = collate_in_directories;
+cfg.msc.emailAddress = email;
+cfg.msc.dirCollate   = dirCollate;
+cfg.msc.nMeshDisplay = meshDisplayNumber;
+
+if cfg.msg.emailAddress == ''
+	cfg.msc.email = 0
+else
+	cfg.msc.email = 1
 
 % Params
 cfg.param.chunkSize     = chunkSize;
@@ -23,6 +29,7 @@ cfg.param.fiberEps      = fiberEps;
 cfg.param.eigCols       = eigCols;
 cfg.param.segmentNum    = segmentNum;
 cfg.param.kMeansMaxIter = kMeansMaxIter;
+cfg.param.alignTeeth	= alignTeeth
 
 % Paths
 cfg.path.meshDir           = meshDir;
@@ -37,7 +44,6 @@ cfg.path.cpdImproveJobMats = fullfile(outputDir, '/etc/cpd_improve/job_mats/');
 cfg.path.soften            = fullfile(outputDir, '/etc/soften/');
 cfg.path.softenJobMats	   = fullfile(outputDir, '/etc/soften/job_mats/')
 cfg.path.out               = fullfile(outputDir, '/output/');
-cfg.path.segments          = fullfile(outputDir, '/output/segments/');
 
 if cfgSave
 	save(cfg.path.cfg, 'cfg');

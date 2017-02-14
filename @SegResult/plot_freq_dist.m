@@ -1,6 +1,7 @@
 function plot_freq_dist(SegResult, filePath)
 % PLOT_FREQ_DIST - Plots and opt. saves freq dist of segment number per mesh
 
+	disp('Plotting and saving frequency distribution of number of segments per mesh...');
 	h = histogram(SegResult.data.segmentN, [1:16]);
 	xlabel('Segment ID');
 	ylabel('Number of segments');

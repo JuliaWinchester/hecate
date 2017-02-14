@@ -2,6 +2,7 @@ function plot_segments_3d(SegResult, n, filePath)
 % PLOT_SEGMENTS_3D - Plots and opt. saves figure of segments for n random meshes
 % Adapted from original util/ViewBundleFunc.m
 
+	disp('Plotting and saving representative collection of segments...');
 	figure('Position', [10, 10, 800, 800]);
 	set(gcf, 'ToolBar', 'none');
 	h = zeros(size(n));

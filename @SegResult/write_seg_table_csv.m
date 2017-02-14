@@ -1,6 +1,7 @@
 function write_seg_detail_csv(SegResult, filePath)
 % WRITE_SEG_DETAIL_CSV - Write CSV with segment table
 
+	disp('Writing CSV table of segment details...');
 	d = SegResult.data;
 	meshName    = {};
 	segNum      = [];
