@@ -5,11 +5,11 @@ function calc_data(SegResult)
 
 	data = struct;
 	data.meshN            = length(SegResult.mesh);
-	data.meshArea         = zeros(SegResult.data.meshN, 1);
-	data.meshBorderArea   = zeros(SegResult.data.meshN, 1);
-	data.segmentN         = zeros(SegResult.data.meshN, 1);
-	data.segmentAreaTotal = zeros(SegResult.data.meshN, 1);
-	data.segmentArea      = cell(SegResult.data.meshN, 1);
+	data.meshArea         = zeros(data.meshN, 1);
+	data.meshBorderArea   = zeros(data.meshN, 1);
+	data.segmentN         = zeros(data.meshN, 1);
+	data.segmentAreaTotal = zeros(data.meshN, 1);
+	data.segmentArea      = cell(data.meshN, 1);
 	data.meshName		  = cellfun(@(x) x.Aux.name, ...
 		SegResult.mesh, 'UniformOutput', 0);
 

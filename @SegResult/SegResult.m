@@ -17,17 +17,17 @@ classdef SegResult < handle
 		
 			vIdxCumSum = [0; vIdxCumSum];
 			for i = 1:length(flatSamples)
-				obj.mesh{i}.segmentIdx = kIdx(vIdxCumSum(i)+1:vIdxCumSum(i+1));
+				segIdx = kIdx(vIdxCumSum(i)+1:vIdxCumSum(i+1));
 			    tmp = load(flatSamples{i}); 
 			    obj.mesh{i} = SegMesh(tmp.G);
-			    obj.mesh{i}.segment = cell(max(obj.mesh{i}.segmentIdx), 1);
+			    obj.mesh{i}.segmentIdx = segIdx;
+			    obj.mesh{i}.segment = cell(max(segIdx), 1);
 			    V = obj.mesh{i}.V';
 			    F = obj.mesh{i}.F';
 			    for j = 1:size(obj.mesh{i}.segment, 1)
-			        obj.mesh{i}.segment{j}.V = ...
-			        	V(obj.mesh{i}.segmentIdx == j, :)';
+			        obj.mesh{i}.segment{j}.V = V(segIdx == j, :)';
 			        vIdx = 1:length(V);
-			        segVertIdxOrig = vIdx(obj.mesh{i}.segmentIdx == j);
+			        segVertIdxOrig = vIdx(segIdx == j);
 			        segVertIdxNew = 1:length(segVertIdxOrig);
 			        segFaceIdxOrig = F(all(ismember(F, segVertIdxOrig), 2),:);
 			        segFaceIdxNew = changem(segFaceIdxOrig, segVertIdxNew, ...
