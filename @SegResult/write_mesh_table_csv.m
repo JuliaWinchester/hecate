@@ -5,7 +5,7 @@ function write_mesh_detail_csv(SegResult, filePath)
 	varNames = {'mesh_name', 'mesh_area', 'segment_number', ...
 		'total_segment_area', 'border_area'};
 	dataTable = table(d.meshName, d.meshArea, d.segmentN, ...
-		d.segmentAreaTotal, d.meshBordorArea, 'VariableNames', varNames);
+		d.segmentAreaTotal, d.meshBorderArea, 'VariableNames', varNames);
 	writetable(dataTable, filePath);
 
 end

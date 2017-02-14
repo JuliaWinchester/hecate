@@ -1,8 +1,8 @@
-function write_seg_group(SegResult, filePath, nRow, alignTeeth)
+function write_seg_group(SegResult, filePath, alignTeeth)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
 	if alignTeeth
-		R = SegResult.rigid_motion();
+		SegResult.rigid_motion();
 		newMesh = cell(length(SegResult.mesh), 1);
 		for i = 1:length(SegResult.mesh)
 			newMesh{i}.V = R{i, 1} * SegResult.mesh{i}.V;

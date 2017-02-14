@@ -34,7 +34,7 @@ vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 
 kIdx = do_csc(cfg, U, sqrtInvD);
 
-res = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum);
+res = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum, cfg);
 
 
 

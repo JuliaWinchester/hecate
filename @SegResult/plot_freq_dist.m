@@ -3,9 +3,8 @@ function plot_freq_dist(SegResult, filePath)
 
 	h = histogram(SegResult.data.segmentN, [1:16]);
 	xlabel('Segment ID');
-	ylabel('Segment number');
+	ylabel('Number of segments');
 	title('Frequency distribution of number of segments per mesh');
-	saveas(gcf, filePath);
 	saveas(gcf, filePath);
 
 end
