@@ -13,7 +13,7 @@ cfg.msc.emailAddress = email;
 cfg.msc.dirCollate   = dirCollate;
 cfg.msc.nMeshDisplay = meshDisplayNumber;
 
-if cfg.msc.emailAddress == ''
+if strcmpi(cfg.msc.emailAddress, '')
 	cfg.msc.email = 0;
 else
 	cfg.msc.email = 1;

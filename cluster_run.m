@@ -1,7 +1,7 @@
-function cluster_run(func, funcArgs, codePath, jobPath, varargin)
+function cluster_run(func, funcArg, codePath, jobPath, varargin)
 % CLUSTER_RUN - Runs SGE cluster jobs
 
-touch(dirPath);
+touch(jobPath);
 
 optArgs = {'crJob', 0, [], 0, ''};
 optArgs(1:length(varargin)) = varargin;
@@ -9,11 +9,11 @@ optArgs(1:length(varargin)) = varargin;
 
 PBS = '#PBS -l nodes=1:ppn=1,walltime=3:00:00\n#PBS -m abe\n';
 command = 'matlab -nodesktop -nodisplay -nosplash -r ';
-matlab_call = [
-	'\"cd ' codePath '; '
-	'path(pathdef); '
-	'addpath(path,genpath(' codePath ')); ' 
-	func '(' strjoin(funcArgs, ',') '); exit;\"'];
+matlab_call = [ ...
+	'\"cd ''' codePath '''; ' ...
+	'path(pathdef); ' ...
+	'addpath(path,genpath(''' codePath ''')); ' ... 
+	func '(' funcArg '); exit;\"'];
 
 errPath = fullfile(jobPath, [func '_err']);
 outPath = fullfile(jobPath, [func '_out']);

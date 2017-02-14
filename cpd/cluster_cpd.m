@@ -1,8 +1,8 @@
-function [resultPath, chunkSize] = cluster_cpd(flatSamples, outputDir, chunkSize)
+function [resultPath, chunkSize] = cluster_cpd(cfgPath)
 % CLUSTER_CPD - Submit on_grid/cPdist jobs to cluster
 
 [chunkSize, flatSamples, flatPath, cpdPath, resultPath] = load_cfg(cfgPath, ...
-    'params.chunkSize', 'data.flatSamples', 'path.flat', 'path.cpd', ...
+    'param.chunkSize', 'data.flatSamples', 'path.flat', 'path.cpd', ...
     'path.cpdJobMats'); 
 
 errPath    = fullfile(cpdPath, '/cluster/error/');

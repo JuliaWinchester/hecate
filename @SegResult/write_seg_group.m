@@ -24,7 +24,8 @@ function write_seg_group(SegResult, filePath)
 		vectCenter = mean(newMesh{i}.V, 2);
 		vectLoc = locs(:, i) - vectCenter;
 		for j = 1:length(newMesh{i}.segment)
-			movedV = newMesh{i}.segment{j}.V + vectLoc;
+			segLoc = repmat(vectLoc, 1, size(newMesh{i}.segment{j}.V, 2));
+			movedV = newMesh{i}.segment{j}.V + segLoc;
 			groupF = [groupF newMesh{i}.segment{j}.F+length(groupV)];
 			groupV = [groupV movedV];
 		end
