@@ -12,12 +12,6 @@ for k = 1:length(meshNames)
     job_id = k;
     
     samplePath = fullfile(flatPath, '/samples/', [meshNames{k} '.mat']);
-
-    if (exist(samplePath, 'file'))
-        job_id = job_id+1;
-        continue;
-    end
-    
     flatSamples{k} = samplePath;
     scriptPath = fullfile(flatPath, '/cluster/script/', ... 
         ['script_' num2str(job_id)]);

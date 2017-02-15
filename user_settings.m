@@ -14,7 +14,7 @@ meshDir = '~/small/';
 outputDir = '~/small_out/';
 
 % Optional email for alerting when cluster jobs finish
-email = '';
+email = 'julia.m.winchester@gmail.com';
 
 % Align teeth when exporting files (only affects exported files, not analysis)
 alignTeeth = 1;
@@ -25,24 +25,37 @@ dirCollate = 0;
 % How many meshes to display segments from in representative MATLAB figure
 meshDisplayNumber = 10;
 
-%% Control which analyses run (not currently implemented)
-runContinuousProcrustesDistance = 1;
-runDiffusionMapSegmentation = 1;
-
-%% Cluster file block size (don't change)
+% Cluster file block size (don't change)
 chunkSize = 25;
 
-%% Continuous Procrustes distance parameters (don't change)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Analysis parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Continuous Procrustes distance parameters (don't change)
 imprType = 'MST';
 featureFix = 'off';
 
-%%% Diffusion map parameters
-BNN = 5;
+% Diffusion map parameters
+BNN = 2; % usually 5
 epsilon = 0.03;
 FBW = 3;
 fiberEps = 1e-3;
 
-%% Consistent spectral clustering parameters
+% Consistent spectral clustering parameters
 segmentNum = 15;
 eigCols = 15;
 kMeansMaxIter = 1000;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Analysis control (change to run only some analysis steps)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Continuous Procrustes distance
+runFlatten = 1;
+runCPD = 1;
+runCPDImprove = 1;
+
+% Diffusion map/spectral clustering
+runSoften = 1;
+runDiffMapSpectCluster = 1;

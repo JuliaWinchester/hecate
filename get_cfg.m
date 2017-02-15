@@ -3,6 +3,13 @@ function cfg = get_cfg()
 
 user_settings;
 
+% Analysis control
+cfg.ctrl.runFlatten             = runFlatten;
+cfg.ctrl.runCPD                 = runCPD;
+cfg.ctrl.runCPDImprove          = runCPDImprove;
+cfg.ctrl.runSoften              = runSoften;
+cfg.ctrl.runDiffMapSpectCluster = runDiffMapSpectCluster;
+
 % Data
 [meshNames, meshPaths] = get_mesh_names(meshDir, '.off');
 cfg.data.meshNames = meshNames;
@@ -43,5 +50,5 @@ cfg.path.cpdJobMats        = fullfile(outputDir, '/etc/cpd/job_mats/');
 cfg.path.cpdImprove        = fullfile(outputDir, '/etc/cpd_improve/');
 cfg.path.cpdImproveJobMats = fullfile(outputDir, '/etc/cpd_improve/job_mats/');
 cfg.path.soften            = fullfile(outputDir, '/etc/soften/');
-cfg.path.softenJobMats	   = fullfile(outputDir, '/etc/soften/job_mats/')
-cfg.path.out               = fullfile(outputDir, '/output/');
+cfg.path.softenJobMats	   = fullfile(outputDir, '/etc/soften/job_mats/');
+cfg.path.out               = fullfile(outputDir, '/results/');

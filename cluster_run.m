@@ -3,7 +3,7 @@ function cluster_run(func, funcArg, codePath, jobPath, varargin)
 
 touch(jobPath);
 
-optArgs = {'crJob', 0, [], 0, ''};
+optArgs = {'crJob', 0, '', 0, ''};
 optArgs(1:length(varargin)) = varargin;
 [jobName, sync, holdID, email, emailAddress] = optArgs{:};
 
