@@ -1,7 +1,7 @@
 hecate
 ======
 
-Consistent segmentation of biological surfaces by spectral clustering from a hypoelliptic diffusion map. This method was developed by Tingran Gao (trgao10@math.duke.edu) [[2015a](http://dukespace.lib.duke.edu/dspace/handle/10161/9931), [2015b](https://arxiv.org/pdf/1503.05459.pdf)] and this software incorporates code from repositories [cPdist](https://github.com/trgao10/cPdist) and [HDM](https://github.com/trgao10/HDM) written by Tingran Gao. Julie Winchester (julia.m.winchester@gmail.com) is the author and maintainer for hecate. 
+Consistent segmentation of biological surfaces by spectral clustering from a hypoelliptic diffusion map. This method was developed by Tingran Gao (trgao10@math.duke.edu) [[2015a](http://dukespace.lib.duke.edu/dspace/handle/10161/9931), [2015b](https://arxiv.org/pdf/1503.05459.pdf)] and this software incorporates code from repositories [cPdist](https://github.com/trgao10/cPdist) and [HDM](https://github.com/trgao10/HDM) written by Tingran Gao. Julie Winchester (julie.winchester@duke.edu) is the author and maintainer for hecate. 
 
 This software reads 3D surface mesh files in .off format and leverages an SGE cluster computing environment to calculate continuous procrustes distances between surfaces, a hypoelliptic diffusion map generated from the distance matrix, and biological surface segments created via spectral clustering from the diffusion map. Output results include .off-format surface fiiles representing whole original meshes and mesh section segments, data tables detailing simple quantitative characteristics of segmented meshes, and plots representing mesh segments and mesh segment data.
 
