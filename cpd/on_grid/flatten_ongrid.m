@@ -9,11 +9,13 @@ function flatten_ongrid(mesh_file, sample_file)
 %==========================================================================
 
 G = Mesh('off', mesh_file);
-G.DeleteIsolatedVertex();
+%G.remove_zero_area_faces();
+%G.remove_unref_verts();
 sep_i = strfind(mesh_file, filesep);
 dot_i = strfind(mesh_file, '.');
 G.Aux.name = mesh_file(sep_i(end)+1:dot_i(end)-1);
 [G.Aux.Area,G.Aux.Center] = G.Centralize('ScaleArea');
+disp(num2str(norm(G.V,'fro')));
 options.GaussMaxLocalWidth = 12; %% for Clement data set
 options.GaussMinLocalWidth = 7; %% for Clement data set
 G.ComputeMidEdgeUniformization(options); %%% default options only for PNAS

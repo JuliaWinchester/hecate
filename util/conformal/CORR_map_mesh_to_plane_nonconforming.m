@@ -26,18 +26,22 @@ b = zeros(L1rows,1);
 b(L1rows+1) = -1;
 b(L1rows+2) = 1;
 u = L1\b;
+disp(cond(L1))
+disp(cond(b))
 
+
+disp('Just after warning')
 % %with linear system
 % [e_u_star] = CORR_calculate_conjugate_harmonic(F,V,u,M,E2V,numE);
 %withOUT linear system
 imissing_f = seed_face;
 [e_u_star] = CORR_calculate_conjugate_harmonic_faster(oF,V,mF,u,M,E2V,numE,imissing_f);
-
+disp('After conjugate harmonic')
 [mu] = CORR_get_midpoint_values_of_function(oF,u, M, E2V, numE);
-
+disp('After get midpoint values')
 if(reflect_mesh==0)
     pmV = [mu e_u_star]; 
 else
     pmV = [mu -e_u_star]; 
 end
-
+disp('After if statement')

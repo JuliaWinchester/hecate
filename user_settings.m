@@ -8,10 +8,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Directory of input mesh files
-meshDir = '~/small/';
+meshDir = '~/big_prep_off/';
 
 % Directory for output files
-outputDir = '~/small_out/';
+outputDir = '~/big_out/';
 
 % Optional email for alerting when cluster jobs finish
 email = 'julia.m.winchester@gmail.com';
@@ -26,7 +26,7 @@ dirCollate = 0;
 meshDisplayNumber = 10;
 
 % Cluster file block size (don't change)
-chunkSize = 25;
+chunkSize = 50;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Analysis parameters
@@ -37,7 +37,7 @@ imprType = 'MST';
 featureFix = 'off';
 
 % Diffusion map parameters
-BNN = 2; % usually 5
+BNN = 5; % usually 5
 epsilon = 0.03;
 FBW = 3;
 fiberEps = 1e-3;
