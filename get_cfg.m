@@ -5,6 +5,7 @@ user_settings;
 
 % Analysis control
 cfg.ctrl.runFlatten             = runFlatten;
+cfg.ctrl.runListFlatMeshes		= runListFlatMeshes;
 cfg.ctrl.runCPD                 = runCPD;
 cfg.ctrl.runCPDImprove          = runCPDImprove;
 cfg.ctrl.runSoften              = runSoften;

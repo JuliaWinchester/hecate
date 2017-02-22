@@ -8,14 +8,14 @@ load(cfgPath, 'cfg');
 
 %% Continuous Procrustes distance
 if cfg.ctrl.runFlatten
-	flatSamples = cluster_flatten(cfg.path.cfg);
-	cfg.data.flatSamples = flatSamples;
-	save(cfg.path.cfg, 'cfg');
-else
-	load(cfg.path.cfg, 'cfg');
-	if ~isfield(cfg.data, 'flatSamples')
-		error('Configuration object does not have flatten sample data. Run flatten analysis step.');
-	end
+	cluster_run('cluster_flatten', ['''' cfg.path.cfg ''''], pwd, ...
+		cfg.path.flat, 'flatten', 1, '', cfg.msc.email, cfg.msc.emailAddress);
+end
+
+if cfg.ctrl.runListFlatMeshes
+	cluster_run('get_flat_meshes', ['''' cfg.path.cfg ''''], pwd, ...
+		cfg.path.flat, 'getflat', 1, 'flatten', cfg.msc.email, ...
+		cfg.msc.emailAddress);
 end
 
 if cfg.ctrl.runCPD
