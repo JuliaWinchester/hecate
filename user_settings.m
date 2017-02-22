@@ -52,7 +52,7 @@ kMeansMaxIter = 1000;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Continuous Procrustes distance
-runFlatten = 0;
+runFlatten = 1;
 runListFlatMeshes = 1;
 runCPD = 1;
 runCPDImprove = 1;
