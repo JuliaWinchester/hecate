@@ -4,6 +4,7 @@ function cfg = get_cfg()
 user_settings;
 
 % Analysis control
+cfg.ctrl.restartAll				= restartAll;
 cfg.ctrl.runFlatten             = runFlatten;
 cfg.ctrl.runListFlatMeshes		= runListFlatMeshes;
 cfg.ctrl.runCPD                 = runCPD;

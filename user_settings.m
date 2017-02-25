@@ -7,6 +7,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Destroy any and all configuration and data files from previous analyses
+% If off, partially complete analysis can be resumed
+restartAll = 0;
+
 % Directory of input mesh files
 meshDir = '~/pnas_plat/';
 
