@@ -5,21 +5,27 @@ function [pmV ] = CORR_map_mesh_to_plane_nonconforming(V,F,mF,seed_face,M,E2V,nu
 
 oF = F; %rememeber the face list for later
 
+disp(size(V));
+disp(size(F));
+
 %cut out the seed face
-ioutf = seed_face;
-outf = F(ioutf,:);
-outf=sort(outf);
-F(ioutf,:)=[];
+ioutf = seed_face; % Index of face to remove because it is the cut face
+outf = F(ioutf,:); % Actual vertices to remove from faces to remove
+outf=sort(outf); 
+disp(size(outf));
+disp(outf);
+F(ioutf,:)=[]; % Removes cut face from F, vertices still in V tho
 
-[L] = CORR_compute_laplacian_tension(V,F);
+[L] = CORR_compute_laplacian_tension(V,F); % V x V matrix of laplacian tensions? tension field?
 L1 = L;
+save('~/L1_working.mat', 'L1');
+disp(cond(L1));
 outf = sort(outf);
-L1(outf(1),:) = [];
-L1(outf(2)-1,:) = [];
+L1(outf(1),:) = []; % Removes all values in row corresponding to first removed vertex in L
+L1(outf(2)-1,:) = []; % Removes all values in row corresponding to second removed vertex - 1 in L
+L1rows = size(L1,1); % Number of rows in L1 (number of verts)
 
-L1rows = size(L1,1);
-
-L1(L1rows+1,outf(1)) = 1;
+L1(L1rows+1,outf(1)) = 1; % Adds two new rows to L1
 L1(L1rows+2,outf(2)) = 1;
 
 b = zeros(L1rows,1);
@@ -27,8 +33,6 @@ b(L1rows+1) = -1;
 b(L1rows+2) = 1;
 u = L1\b;
 disp(cond(L1))
-disp(cond(b))
-
 
 disp('Just after warning')
 % %with linear system

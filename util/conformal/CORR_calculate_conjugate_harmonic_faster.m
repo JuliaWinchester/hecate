@@ -16,6 +16,7 @@ e_u_star = NaN*ones(nume,1);
 e_u_star(M(F(tobe_visited(1),1),F(tobe_visited(1),2))) = 0;%set the addditive constant
 
 while(tobe_len>0 ) %while we haven't finished traversing the mesh
+    %disp(tobe_len);
     indf = tobe_visited(tobe_len);
     f = F(indf,:);
     tobe_len = tobe_len-1;

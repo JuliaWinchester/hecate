@@ -12,6 +12,7 @@ function F = remove_zero_area_faces(G)
 			zeroFaceInds = [zeroFaceInds i];
 		end
 	end
+	disp(G.F(:, zeroFaceInds));
 	G.F(:, zeroFaceInds) = [];
 
 	function A = triangle_area(a, b, c)

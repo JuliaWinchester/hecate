@@ -8,10 +8,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Directory of input mesh files
-meshDir = '~/big_prep_off/';
+meshDir = '~/pnas_plat/';
 
 % Directory for output files
-outputDir = '~/big_out/';
+outputDir = '~/pnas_plat_out/';
 
 % Optional email for alerting when cluster jobs finish
 email = 'julia.m.winchester@gmail.com';
@@ -52,7 +52,7 @@ kMeansMaxIter = 1000;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Continuous Procrustes distance
-runFlatten = 1;
+runFlatten = 0;
 runListFlatMeshes = 1;
 runCPD = 1;
 runCPDImprove = 1;

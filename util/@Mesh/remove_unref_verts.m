@@ -11,6 +11,7 @@ function [V, F] = remove_unref_verts(G)
 		end
 	end
 
+	disp(unrefVertIdx);
 	G.V(:, unrefVertIdx) = [];
 	flipUnrefVertIdx = fliplr(unrefVertIdx);
 
