@@ -11,7 +11,7 @@ function flatten_ongrid(mesh_file, sample_file)
 G = Mesh('off', mesh_file);
 %G.remove_zero_area_faces();
 %G.remove_unref_verts();'
-%G.DeleteIsolatedVertex();
+G.DeleteIsolatedVertex();
 sep_i = strfind(mesh_file, filesep);
 dot_i = strfind(mesh_file, '.');
 G.Aux.name = mesh_file(sep_i(end)+1:dot_i(end)-1);

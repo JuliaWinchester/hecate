@@ -93,8 +93,10 @@ for ref=0:1
                     [~, tind1] = min(HDist,[],2);
                     [~, tind2] = min(HDist,[],1);
                     tind2 = tind2';
+
                     InterpInds1 = find(tind2(tind1)==(1:size(HDist,1))');
                     InterpInds2 = tind1(InterpInds1);
+
                     %%% at the moment, InterpInds1, InterpInds2 are indices
                     %%% on FeaturesM, FeaturesN, respectively
                     InterpCoords1 = FeaturesMCoords(InterpInds1);
@@ -111,7 +113,9 @@ for ref=0:1
                     
                     TPS_DISC_VERTICES_FEATURESM = DISCtoPLANE([real(pushInterpCoords1);imag(pushInterpCoords1)]','d2p');
                     TPS_DISC_VERTICES_FEATURESN = DISCtoPLANE([real(InterpCoords2);imag(InterpCoords2)]','d2p');
+                    
                     if length(pushInterpCoords1)>=NumFeatureMatch
+                        disp('Necessary number of pushInterpCoord1 found!');
                         if (length(pushInterpCoords1)>3) % TPS (Thin Plate Spline)
                             tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
                             [ftps] = TEETH_calc_tps(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN-TPS_DISC_VERTICES_FEATURESM);
@@ -136,6 +140,8 @@ for ref=0:1
                     best_tet = tet;
                     TPS_FEATURESM = TPS_DISC_VERTICES_FEATURESM;
                     TPS_FEATURESN = TPS_DISC_VERTICES_FEATURESN;
+                    best_InterpInds1 = InterpInds1;
+                    best_InterpInds2 = InterpInds2;
                 else
                     if (err < best_err)
                         best_err = err;
@@ -144,12 +150,22 @@ for ref=0:1
                         best_tet = tet;
                         TPS_FEATURESM = TPS_DISC_VERTICES_FEATURESM;
                         TPS_FEATURESN = TPS_DISC_VERTICES_FEATURESN;
+                        best_InterpInds1 = InterpInds1;
+                        best_InterpInds2 = InterpInds2;
                     end
                 end
             end
         end
     end
 end
+
+disp(GM.V(FeaturesM));
+disp(GM.V(FeaturesN));
+disp(best_InterpInds1);
+disp(best_InterpInds2);
+
+drawInterpFeat(GM, GM.V(:,FeaturesM), best_InterpInds1);
+drawInterpFeat(GN, GN.V(:,FeaturesN), best_InterpInds2);
 
 m = [exp(1i*best_tet) -best_a*exp(1i*best_tet); -conj(best_a) 1];
 pushGM = CORR_apply_moebius_as_matrix(m,compl(GM.Aux.UniformizationV));
