@@ -15,10 +15,10 @@ restartAll = 0;
 meshDir = '~/pnas_plat/';
 
 % Directory for output files
-outputDir = '~/pnas_plat_out/';
+outputDir = '/gtmp/hecate/';
 
 % Optional email for alerting when cluster jobs finish
-email = 'julia.m.winchester@gmail.com';
+email = '';
 
 % Align teeth when exporting files (only affects exported files, not analysis)
 alignTeeth = 1;
@@ -57,8 +57,8 @@ kMeansMaxIter = 1000;
 
 % Continuous Procrustes distance
 runFlatten = 0;
-runListFlatMeshes = 1;
-runCPD = 1;
+runListFlatMeshes = 0;
+runCPD = 0;
 runCPDImprove = 1;
 
 % Diffusion map/spectral clustering

@@ -12,10 +12,11 @@ if cfg.ctrl.restartAll
 else
 	set_up_dirs(cfg, 0);
 	if exist(cfg.path.cfg, 'file') == 2
-        load(cfg.path.cfg, 'cfg');
-    else
-    	save(cfg.path.cfg, 'cfg');
+        old = load(cfg.path.cfg, 'cfg');
+        old.cfg.ctrl = cfg.ctrl;
+        cfg = old.cfg;
     end
+    save(cfg.path.cfg, 'cfg');
 end
 
 cluster_run('hecate', ['''' cfg.path.cfg ''''], pwd, ...
