@@ -7,7 +7,8 @@ function calc_data(SegResult)
 	data.meshN            = length(SegResult.mesh);
 	data.meshArea         = zeros(data.meshN, 1);
 	data.meshBorderArea   = zeros(data.meshN, 1);
-	data.segmentN         = zeros(data.meshN, 1);
+	data.segmentTotalN    = zeros(data.meshN, 1);
+	data.segmentNonZeroN  = zeros(data.meshN, 1);
 	data.segmentAreaTotal = zeros(data.meshN, 1);
 	data.segmentArea      = cell(data.meshN, 1);
 	data.meshName		  = cellfun(@(x) x.Aux.name, ...
@@ -15,9 +16,11 @@ function calc_data(SegResult)
 
 	for i = 1:data.meshN		
 		data.meshArea(i) = surface_area(r.mesh{i}.V, r.mesh{i}.F);
-		data.segmentN(i) = length(r.mesh{i}.segment);
-		segAreaArray = zeros(data.segmentN(i), 1);
-		for j = 1:data.segmentN(i)
+		data.segmentTotalN(i) = length(r.mesh{i}.segment);
+		data.segmentNonZeroN(i) = ...
+			nnz(cellfun(@(x) size(x.F, 2), r.mesh{1}.segment));
+		segAreaArray = zeros(data.segmentTotalN(i), 1);
+		for j = 1:data.segmentTotalN(i)
 			segAreaArray(j) = surface_area(r.mesh{i}.segment{j}.V, ...
 				r.mesh{i}.segment{j}.F);
 		end

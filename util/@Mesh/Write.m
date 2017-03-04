@@ -1,6 +1,8 @@
 function Write(G,filename,format,options)
+% Color added to .off files by Julie Winchester (julia.winchester@duke.edu)
 
 options.pointCloud = getoptions(options, 'pointCloud', 0);
+options.color = getoptions(options, 'color', []);
 
 switch format
     case 'off'
@@ -20,7 +22,12 @@ switch format
         % write the points & faces
         fprintf(fid, '%f %f %f\n', G.V);
         if options.pointCloud==0
-            fprintf(fid, '3 %d %d %d\n', G.F-1);
+            if ~isempty(options.color)
+                fc = vertcat(G.F - 1, options.color);
+                fprintf(fid, ['3 %d %d %d %f %f %f %f\n'], fc);
+            else
+                fprintf(fid, ['3 %d %d %d\n'], G.F - 1);
+            end
         end
         
         fclose(fid);

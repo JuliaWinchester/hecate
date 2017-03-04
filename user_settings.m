@@ -26,6 +26,9 @@ alignTeeth = 1;
 % Collate saved segments by mesh dir (i.e., mesh1/mesh1_seg1.off)
 dirCollate = 0;
 
+% Whether output segment files should be colored to differentiate them
+colorSegments = 1;
+
 % How many meshes to display segments from in representative MATLAB figure
 meshDisplayNumber = 10;
 
@@ -36,17 +39,29 @@ chunkSize = 50;
 %%%% Analysis parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Continuous Procrustes distance parameters (don't change)
+%% Continuous Procrustes distance parameters (don't change)
+
+% flatten
+confMaxLocalWidth = 8;
+gaussMaxLocalWidth = 10;
+gaussMinLocalWidth = 6;
+adMaxLocalWidth = 7;
+
+% cpd
+featureType = 'ConfMax';
+numFeatureMatch = 4;
+
+% cpd_improve
 imprType = 'MST';
 featureFix = 'off';
 
-% Diffusion map parameters
+%% Diffusion map parameters
 BNN = 5; % usually 5
 epsilon = 0.03;
 FBW = 3;
 fiberEps = 1e-3;
 
-% Consistent spectral clustering parameters
+%% Consistent spectral clustering parameters
 segmentNum = 15;
 eigCols = 15;
 kMeansMaxIter = 1000;

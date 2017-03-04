@@ -19,6 +19,7 @@ properties
     Aux
     V2V
     E2E
+    c
 end
 
 methods
@@ -40,6 +41,11 @@ methods
             obj.Aux=varargin{1}.Aux;
             obj.V2V=varargin{1}.V2V;
             obj.E2E=varargin{1}.E2E;
+            if isfield(varargin{1}, 'c')
+                obj.c=varargin{1}.c;
+            else
+                obj.c=[];
+            end
         elseif length(varargin)>=2
             switch(varargin{1})
                 case 'ply'

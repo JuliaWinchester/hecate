@@ -10,8 +10,9 @@ function export(SegResult, alignTeeth)
 	%%% Write mesh, segment, group OFFs
 	SegResult.write_meshes(fullfile(outPath, 'mesh'));
 	SegResult.write_segments(fullfile(outPath, 'segment'), ...
-		SegResult.cfg.msc.dirCollate);
-	SegResult.write_seg_group(fullfile(outPath, 'seg_group.off'));
+		1, SegResult.cfg.msc.dirCollate, SegResult.cfg.param.colorSegments);
+	SegResult.write_seg_group(fullfile(outPath, 'seg_group.off'), ...
+		SegResult.cfg.param.colorSegments);
 
 	%%% Write CSV tables
 	SegResult.write_mesh_table_csv(fullfile(outPath, 'mesh.csv'));

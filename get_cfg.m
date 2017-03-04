@@ -29,17 +29,24 @@ else
 end
 
 % Params
-cfg.param.chunkSize     = chunkSize;
-cfg.param.imprType      = imprType;
-cfg.param.featureFix    = featureFix;
-cfg.param.BNN           = BNN;
-cfg.param.epsilon       = epsilon;
-cfg.param.FBW           = FBW;
-cfg.param.fiberEps      = fiberEps;
-cfg.param.eigCols       = eigCols;
-cfg.param.segmentNum    = segmentNum;
-cfg.param.kMeansMaxIter = kMeansMaxIter;
-cfg.param.alignTeeth	= alignTeeth;
+cfg.param.alignTeeth	          = alignTeeth;
+cfg.param.colorSegments			  = colorSegments;
+cfg.param.chunkSize               = chunkSize;
+cfg.param.flat.confMaxLocalWidth  = confMaxLocalWidth;
+cfg.param.flat.gaussMaxLocalWidth = gaussMaxLocalWidth;
+cfg.param.flat.gaussMinLocalWidth = gaussMinLocalWidth;
+cfg.param.flat.adMaxLocalWidth    = adMaxLocalWidth;
+cfg.param.cpd.featureType         = featureType;
+cfg.param.cpd.numFeatureMatch     = numFeatureMatch;
+cfg.param.cpdi.imprType           = imprType;
+cfg.param.cpdi.featureFix         = featureFix;
+cfg.param.diff.BNN                = BNN;
+cfg.param.diff.epsilon            = epsilon;
+cfg.param.diff.FBW                = FBW;
+cfg.param.diff.fiberEps           = fiberEps;
+cfg.param.spec.eigCols            = eigCols;
+cfg.param.spec.segmentNum         = segmentNum;
+cfg.param.spec.kMeansMaxIter      = kMeansMaxIter;
 
 % Paths
 cfg.path.meshDir           = meshDir;

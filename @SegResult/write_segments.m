@@ -1,4 +1,4 @@
-function write_segments(SegResult, dirPath, subdirByMesh)
+function write_segments(SegResult, dirPath, excludeEmpty, subdirByMesh, colorSegments)
 % WRITE_SEGMENTS - Save segment meshes
 	
 	touch(dirPath);
@@ -14,9 +14,17 @@ function write_segments(SegResult, dirPath, subdirByMesh)
 	for i = 1:length(SegResult.mesh)
 		disp(['Saving segments for mesh ' SegResult.mesh{i}.Aux.name '...']);
 		for j = 1:length(SegResult.mesh{i}.segment)
+			if (excludeEmpty) && (size(SegResult.mesh{i}.segment{j}.F, 2) == 0) 
+				continue
+			end
+			if colorSegments
+				options.color = SegResult.mesh{i}.segment{j}.c;
+			else
+				options = struct;
+			end
 			SegResult.mesh{i}.segment{j}.Write(fullfile(d{i}, ...
 				[SegResult.mesh{i}.Aux.name '_seg' num2str(j) '.off']), ...
-				'off', struct);
+				'off', options);
 		end
 	end
 

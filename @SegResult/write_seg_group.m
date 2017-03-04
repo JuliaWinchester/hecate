@@ -1,4 +1,4 @@
-function write_seg_group(SegResult, filePath)
+function write_seg_group(SegResult, filePath, colorSegments)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
 	disp('Writing segment sample group OFF...');
@@ -20,6 +20,7 @@ function write_seg_group(SegResult, filePath)
 
 	groupV = [];
 	groupF = [];
+	groupC = [];
 	for i = 1:length(newMesh)
 		vectCenter = mean(newMesh{i}.V, 2);
 		vectLoc = locs(:, i) - vectCenter;
@@ -28,10 +29,17 @@ function write_seg_group(SegResult, filePath)
 			movedV = newMesh{i}.segment{j}.V + segLoc;
 			groupF = [groupF newMesh{i}.segment{j}.F+length(groupV)];
 			groupV = [groupV movedV];
+			groupC = [groupC newMesh{i}.segment{j}.c];
 		end
 	end
 
-	write_off(fullfile(filePath), groupV, groupF);
+	meshGroup = Mesh('VF', groupV, groupF);
+	if colorSegments
+		options.color = groupC;
+	else
+		options = struct;
+	end
+	meshGroup.Write(fullfile(filePath), 'off', options);
 
 end
 
