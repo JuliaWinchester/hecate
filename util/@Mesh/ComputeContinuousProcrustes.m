@@ -26,7 +26,7 @@ ProgressBar = getoptions(options,'ProgressBar','on');
 FeatureType = getoptions(options,'FeatureType','ConfMax');
 NumDensityPnts = getoptions(options,'NumDensityPnts',100);
 AngleIncrement = getoptions(options,'AngleIncrement',0.05);
-NumFeatureMatch = getoptions(options,'NumFeatureMatch',3);
+NumFeatureMatch = getoptions(options,'NumFeatureMatch',4);
 FeatureMatchType = getoptions(options,'FeatureMatchType','TPS');
 switch FeatureType
     case 'ADMax'
@@ -115,7 +115,6 @@ for ref=0:1
                     TPS_DISC_VERTICES_FEATURESN = DISCtoPLANE([real(InterpCoords2);imag(InterpCoords2)]','d2p');
                     
                     if length(pushInterpCoords1)>=NumFeatureMatch
-                        disp('Necessary number of pushInterpCoord1 found!');
                         if (length(pushInterpCoords1)>3) % TPS (Thin Plate Spline)
                             tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
                             [ftps] = TEETH_calc_tps(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN-TPS_DISC_VERTICES_FEATURESM);
@@ -158,14 +157,6 @@ for ref=0:1
         end
     end
 end
-
-disp(GM.V(FeaturesM));
-disp(GM.V(FeaturesN));
-disp(best_InterpInds1);
-disp(best_InterpInds2);
-
-drawInterpFeat(GM, GM.V(:,FeaturesM), best_InterpInds1);
-drawInterpFeat(GN, GN.V(:,FeaturesN), best_InterpInds2);
 
 m = [exp(1i*best_tet) -best_a*exp(1i*best_tet); -conj(best_a) 1];
 pushGM = CORR_apply_moebius_as_matrix(m,compl(GM.Aux.UniformizationV));

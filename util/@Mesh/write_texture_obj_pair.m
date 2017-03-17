@@ -1,4 +1,4 @@
-function write_texture_obj_pair(GM, GN, cpDistStructMN, cpDistStructNM, filePath)
+function write_texture_obj_pair(GM, GN, indM, indN, cpDistMat, textureStruct, filePath)
 % WRITE_TEXTURE_OBJ_PAIR - Save 2 .obj files with surface map as texture
 
 	VM = GM.V;
@@ -10,17 +10,18 @@ function write_texture_obj_pair(GM, GN, cpDistStructMN, cpDistStructNM, filePath
 	disp(pathM);
 	pathN = fullfile(filePath, [GN.Aux.name '_map.obj']);
 	disp(pathN);
-	if cpDistStructMN.cPdist<cpDistStructNM.cPdist
-	    optionsM.Texture.Coordinates = cpDistStructMN.TextureCoords1/2+0.5;
-	    optionsN.Texture.Coordinates = cpDistStructMN.TextureCoords2/2+0.5;
+	if cpDistMat(indM, indN) < cpDistMat(indN, indM)
+		optionsM.Texture.Coordinates = textureStruct.tc1{indM, indN}/2+0.5;
+	    % optionsM.Texture.Coordinates = cpDistStructMN.TextureCoords1/2+0.5;
+	    optionsN.Texture.Coordinates = textureStruct.tc2{indM, indN}/2+0.5;
+	    % optionsN.Texture.Coordinates = cpDistStructMN.TextureCoords2/2+0.5;
 	else
-	    optionsM.Texture.Coordinates = cpDistStructNM.TextureCoords2/2+0.5;
-	    optionsN.Texture.Coordinates = cpDistStructNM.TextureCoords1/2+0.5;
+		optionsM.Texture.Coordinates = textureStruct.tc2{indN, indM}/2+0.5;
+	    % optionsM.Texture.Coordinates = cpDistStructNM.TextureCoords2/2+0.5;
+	    optionsN.Texture.Coordinates = textureStruct.tc1{indN, indM}/2+0.5;
+	    % optionsN.Texture.Coordinates = cpDistStructNM.TextureCoords1/2+0.5;
 	end
 	GM.Write(pathM,'obj',optionsM); 
 	GN.Write(pathN,'obj',optionsN);
-
-	GM.V = VM;
-	GN.V = VN;
 
 end

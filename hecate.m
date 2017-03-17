@@ -48,7 +48,10 @@ end
 if cfg.ctrl.runDiffMapSpectCluster
 	vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 	[H, diffMatrixSize] = build_diffusion(cfg, vIdxCumSum);
+	disp(size(H));
 	[U, ~, sqrtInvD] = eigen_decomp(H, diffMatrixSize);
+	disp(size(U));
+	disp(size(sqrtInvD));
 	kIdx = spectral_cluster(cfg, U, sqrtInvD);
 
 	%% Constructing and exporting results
