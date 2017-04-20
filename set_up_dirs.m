@@ -16,14 +16,11 @@ touch(fullfile(cfg.path.cpd, '/cluster/out'));
 touch(fullfile(cfg.path.cpd, '/texture_coords_1'));
 touch(fullfile(cfg.path.cpd, '/texture_coords_2'));
 
-touch(cfg.path.cpdImproveJobMats);
-touch(fullfile(cfg.path.cpdImprove, '/cluster/script'));
-touch(fullfile(cfg.path.cpdImprove, '/cluster/error'));
-touch(fullfile(cfg.path.cpdImprove, '/cluster/out'));
-touch(fullfile(cfg.path.cpdImprove, '/texture_coords_1'));
-touch(fullfile(cfg.path.cpdImprove, '/texture_coords_2'));
+touch(cfg.path.cpdMST);
+touch(fullfile(cfg.path.cpdMST, '/cluster/out_error'));
+touch(fullfile(cfg.path.cpdMST, '/mesh'));
 
-touch(fullfile(cfg.path.soften, '/job_mats/'));
+touch(fullfile(cfg.path.soften, '/job_mats'));
 touch(fullfile(cfg.path.soften, '/cluster/script'));
 touch(fullfile(cfg.path.soften, '/cluster/error'));
 touch(fullfile(cfg.path.soften, '/cluster/out'));

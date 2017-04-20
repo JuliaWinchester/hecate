@@ -74,7 +74,7 @@ kMeansMaxIter = 1000;
 runFlatten = 0;
 runListFlatMeshes = 0;
 runCPD = 0;
-runCPDImprove = 1;
+runCPDMST = 1;
 
 % Diffusion map/spectral clustering
 runSoften = 1;
