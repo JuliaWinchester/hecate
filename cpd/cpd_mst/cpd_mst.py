@@ -47,8 +47,8 @@ import warnings
 
 from functools import partial
 from math import ceil
-from os import listdir
-from os.path import isfile, join
+from os import listdir, makedirs
+from os.path import isfile, exists, join
 from pyspark import SparkContext, SparkConf
 from sys import argv
 
@@ -72,25 +72,35 @@ class Improve_Result:
 def read_mesh_mat(path):
 	"""Loads 3D mesh matlab object as dictionary"""
 	f = sp_io.loadmat(path)['m']
-	return {'v': f[0][0][0].transpose(), 'vert_area': f[0][0][1].transpose()}
+	return {'v': f['V'][0][0].transpose(), 'vert_area': f['Aux'][0][0]['VertArea'][0][0].transpose()}
 
-def load_tc(source, type, i, j):
-	"""source: 'in' or 'out'; type: 1 or 2; i & j: Mesh indices"""
-	if source == 'in':
-		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/in_'
-	elif source == 'out':
-		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/out_'
-	else:
-		raise ValueError('Invalid source')
-
+def load_output_tc(i, j, type):
+	"""type: 1 or 2; i & j: Mesh indices"""
 	if type == 1:
-		src_dir = src_dir + 'tc1'
+		src_dir = join(out_path_bc.value, '/tc1_tmp/')
 	elif type == 2: 
-		src_dir = src_dir + 'tc2'
+		src_dir = join(out_path_bc.value, '/tc2_tmp/')
 	else:
 		raise ValueError('Invalid type')
 
 	return pickle.load(open(join(src_dir, str(i)+'_'+str(j)), 'rb'))
+
+def load_input_tc(i, j, type, chunk_size, n, path):
+	"""i & j: Mesh indices; type: 1 or 2; chunk_size: mats/block, path: Block location"""
+	if type == 1:
+		file_pre = "TextureCoords1_mat_"
+		path = join(path, "/texture_coords_1/")
+		mat_name = "tc1"
+	elif type == 2:
+		file_pre = "TextureCoords2_mat_"
+		path = join(path, "/texture_coords_2/")
+		mat_name = "tc2"
+	else:
+		raise ValueError('Invalid type')
+
+	mat_i = ceil(float(i * n + (j + 1))/float(chunk_size))
+	mat = sp_io.loadmat(join(path, (file_pre + str(mat_i) + '.mat')))[mat_name]
+	return mat[i, j]
 
 def all_pairs(l):
 	return list(itertools.product(l, repeat=2))
@@ -113,13 +123,13 @@ def mst_path(uv):
 		p.append(u)
 	return p
 
-def mst_paths_by_len(sc, mesh_list):
-	pair = all_pairs(range(len(mesh_list)))
+def mst_paths_by_len(sc, n):
+	pair = all_pairs(range(n))
 	pair_rdd = sc.parallelize(pair)
 	pair_paths = pair_rdd.map(mst_path)
 	return sorted(pair_paths.groupBy(len).collect())
 
-def cpd_mst_export(d, pair_paths_collate):
+def cpd_mst_export(pair_paths_collate):
 	for i in range(len(pair_paths_collate)):
 		print("Processing paths of length %d" % i)
 		x = sc.parallelize(pair_paths_collate[i][1])
@@ -130,28 +140,28 @@ def calc_save_cpd_mst(path):
 	if len(path) == 1:
 		m1_i = m2_i = path[0]
 		m1 = m2 = read_mesh_mat(m.value[path[0]])
-		tc1 = [load_tc('in', 1, path[0], path[0])]
-		tc2 = [load_tc('in', 2, path[0], path[0])]
+		tc1 = [load_input_tc(path[0], path[0], 1, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
+		tc2 = [load_input_tc(path[0], path[0], 2, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
 	elif len(path) == 2:
 		m1_i = path[0]
 		m2_i = path[1]
 		m1 = read_mesh_mat(m.value[path[0]])
 		m2 = read_mesh_mat(m.value[path[1]])
-		tc1 = [load_tc('in', 1, path[0], path[1])]
-		tc2 = [load_tc('in', 2, path[0], path[1])]
+		tc1 = [load_input_tc(path[0], path[1], 1, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
+		tc2 = [load_input_tc(path[0], path[1], 2, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
 	else:
 		m1_i = path[0]
 		m2_i = path[-1]
 		m1 = read_mesh_mat(m.value[path[0]])
 		m2 = read_mesh_mat(m.value[path[-1]])
-		tc1 = [load_tc('out', 1, path[0], path[-2]), load_tc('in', 1, path[-2], path[-1])]
-		tc2 = [load_tc('out', 2, path[0], path[-2]), load_tc('in', 2, path[-2], path[-1])]
+		tc1 = [load_output_tc(path[0], path[-2], 1), load_input_tc(path[-2], path[-1], 1, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
+		tc2 = [load_output_tc(path[0], path[-2], 2), load_input_tc(path[-2], path[-1], 2, chunk_size_bc.value, n_bc.value, tc_path_bc.value)]
 		
 	result = improve_cp_with_path_edges(m1, m2, tc1, tc2)
-	pickle.dump(result['tc1'], open(join('/gtmp/BoyerLab/julie/spark_test/tmp/out_tc1/', str(m1_i)+'_'+str(m2_i)), 'wb'))
-	pickle.dump(result['tc2'], open(join('/gtmp/BoyerLab/julie/spark_test/tmp/out_tc2/', str(m1_i)+'_'+str(m2_i)), 'wb'))
+	pickle.dump(result['tc1'], open(join(out_path_bc, '/tc1_tmp/', str(m1_i)+'_'+str(m2_i)), 'wb'))
+	pickle.dump(result['tc2'], open(join(out_path_bc, '/tc2_tmp/', str(m1_i)+'_'+str(m2_i)), 'wb'))
 	etc = {'pt_map': result['pt_map'], 'inv_pt_map': result['inv_pt_map'], 'dist': result['dist'], 'r': result['r'], 'ref': result['ref']}
-	pickle.dump(etc, open(join('/gtmp/BoyerLab/julie/spark_test/tmp/out_etc/', str(m1_i)+'_'+str(m2_i)), 'wb'))
+	pickle.dump(etc, open(join(out_path_bc, '/etc_tmp/', str(m1_i)+'_'+str(m2_i)), 'wb'))
 
 # Currently unused functions (i.e., functions that store result array in memory)
 
@@ -338,40 +348,9 @@ def compose_tc_along_path(path, tc1_mat, tc2_mat):
 
 	return new_tc1, new_tc2
 
-def load_tc_from_block(i, j, type, chunk_size, n, path):
-	"""i & j: Mesh indices; type: 1 or 2; chunk_size: mats/block, path: Block location"""
-	if type == 1:
-		file_pre = "TextureCoords1_mat_"
-		path = join(path, "/texture_coords_1/")
-		mat_name = "tc1"
-	elif type == 2:
-		file_pre = "TextureCoords2_mat_"
-		path = join(path, "/texture_coords_2/")
-		mat_name = "tc2"
-	else:
-		raise ValueError('Invalid type')
-
-	mat_i = ceil(float(i * n + (j + 1))/float(chunk_size))
-	mat = sp_io.loadmat(join(path, (file_pre + str(mat_i) + '.mat')))[mat_name]
-	return mat[i, j]
-
-def load_tc(source, type, i, j):
-	"""source: 'in' or 'out'; type: 1 or 2; i & j: Mesh indices"""
-	if source == 'in':
-		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/in_'
-	elif source == 'out':
-		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/out_'
-	else:
-		raise ValueError('Invalid source')
-
-	if type == 1:
-		src_dir = src_dir + 'tc1'
-	elif type == 2: 
-		src_dir = src_dir + 'tc2'
-	else:
-		raise ValueError('Invalid type')
-
-	return pickle.load(open(join(src_dir, str(i)+'_'+str(j)), 'rb'))
+def touch(dir_path):
+	if not exists(dir_path):
+		makedirs(dir_path)
 
 if __name__ == "__main__":
 	# Load data
@@ -385,9 +364,11 @@ if __name__ == "__main__":
 	mesh_list = [m[0][0] for m in cfg[0][0]['data'][0][0]['meshStructs']]
 
 	cp_dist = sp_io.loadmat(join(cpd_path, 'cpDistMatrix.mat'))['cpDist']
-	tc1_path = join(tc_path, '/texture_coords_1/')
-	tc2_path = join(tc_path, '/texture_coords_2/')
 	print("Finished loading MATLAB data")
+
+	touch(join(out_path, '/tc1_tmp/'))
+	touch(join(out_path, '/tc2_tmp/'))
+	touch(join(out_path, '/etc_tmp/'))
 
 	# # Module-level variables
 	# mesh_path = '/gtmp/BoyerLab/julie/spark_test/mesh/'
@@ -414,11 +395,15 @@ if __name__ == "__main__":
 	m = sc.broadcast(mesh_list)
 	_, _, pred = mst(cp_dist)
 	predBC = sc.broadcast(pred)
+	cpd_path_bc = sc.broadcast(cpd_path)
 	out_path_bc = sc.broadcast(out_path)
+	chunk_size_bc = sc.broadcast(chunk_size_bc)
+	n_bc = sc.broadcast(len(mesh_list))
+	tc_path_bc = sc.broadcast(tc_path_bc)
 
 	# Analysis
 	print("Starting CPD improvement")
-	pair_paths_collate = mst_paths_by_len(sc, mesh_list)
-	result = cpd_mst_array(d, pair_paths_collate)
+	pair_paths_collate = mst_paths_by_len(sc, len(mesh_list))
+	cpd_mst_export(pair_paths_collate)
 	print("Finished CPD improvement")
 	pickle.dump(result, open(join(out_path, 'cpd_res_final'), 'wb'))
