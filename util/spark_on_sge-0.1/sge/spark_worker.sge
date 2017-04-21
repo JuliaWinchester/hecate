@@ -1,0 +1,17 @@
+#!/bin/bash
+#$ -cwd
+#$ -N sp_wrkr
+#$ -j y
+#$ -o $LOG_DIR/$JOB_ID_out.txt
+
+# Executes spark worker process. Should be run using qsub from base spark_on_sge
+# directory. When calling qsub, the -v flag should be used to define the
+# following environment variables:
+# 	- SPARK_HOME: Location of Spark install
+# 	- SPARK_MASTER_HOST: Address for connecting to Spark Master node
+# 	- SPARK_MASTER_PORT: Port for connecting to Spark Master node
+#	- NUM_CORES: Number of cores for Spark worker node (1)
+#	- MEM: Memory for Spark worker node (1G)
+
+$SPARK_HOME/bin/spark-class org.apache.spark.deploy.worker.Worker \
+	spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT -c $NUM_CORES -m $MEM

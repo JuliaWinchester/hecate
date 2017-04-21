@@ -30,7 +30,8 @@ if cfg.ctrl.runCPD
 end
 
 if cfg.ctrl.runCPDMST
-	aaa
+	cluster_run('cluster_cpd_mst', ['''' cfg.path.cfg ''''], pwd, cfg.path.cpdMST, ...
+		'cpm', 1, 'm2s', cfg.msc.email, cfg.msc.emailAddress);
 end
 
 % Needs to be replaced by python step
@@ -48,7 +49,7 @@ end
 %% Diffusion map and consistent spectral clustering
 if cfg.ctrl.runSoften
 	cluster_run('cluster_soften', ['''' cfg.path.cfg ''''], pwd, ...
-		cfg.path.soften, 'soften', 1, 'pcri', cfg.msc.email, ...
+		cfg.path.soften, 'soften', 1, 'cpm', cfg.msc.email, ...
 		cfg.msc.emailAddress);
 end
 

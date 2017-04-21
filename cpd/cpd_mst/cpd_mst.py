@@ -46,9 +46,11 @@ import scipy.sparse.csgraph as sp_graph
 import warnings
 
 from functools import partial
+from math import ceil
 from os import listdir
 from os.path import isfile, join
 from pyspark import SparkContext, SparkConf
+from sys import argv
 
 ##################
 # Spark analysis #
@@ -336,26 +338,76 @@ def compose_tc_along_path(path, tc1_mat, tc2_mat):
 
 	return new_tc1, new_tc2
 
+def load_tc_from_block(i, j, type, chunk_size, n, path):
+	"""i & j: Mesh indices; type: 1 or 2; chunk_size: mats/block, path: Block location"""
+	if type == 1:
+		file_pre = "TextureCoords1_mat_"
+		path = join(path, "/texture_coords_1/")
+		mat_name = "tc1"
+	elif type == 2:
+		file_pre = "TextureCoords2_mat_"
+		path = join(path, "/texture_coords_2/")
+		mat_name = "tc2"
+	else:
+		raise ValueError('Invalid type')
+
+	mat_i = ceil(float(i * n + (j + 1))/float(chunk_size))
+	mat = sp_io.loadmat(join(path, (file_pre + str(mat_i) + '.mat')))[mat_name]
+	return mat[i, j]
+
+def load_tc(source, type, i, j):
+	"""source: 'in' or 'out'; type: 1 or 2; i & j: Mesh indices"""
+	if source == 'in':
+		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/in_'
+	elif source == 'out':
+		src_dir = '/gtmp/BoyerLab/julie/spark_test/tmp/out_'
+	else:
+		raise ValueError('Invalid source')
+
+	if type == 1:
+		src_dir = src_dir + 'tc1'
+	elif type == 2: 
+		src_dir = src_dir + 'tc2'
+	else:
+		raise ValueError('Invalid type')
+
+	return pickle.load(open(join(src_dir, str(i)+'_'+str(j)), 'rb'))
+
 if __name__ == "__main__":
-	# Module-level variables
-	mesh_path = '/gtmp/BoyerLab/julie/spark_test/mesh/'
-	mesh_names_path = '/gtmp/BoyerLab/julie/spark_test/meshnames.mat'
-	cp_dist_path = '/gtmp/BoyerLab/julie/spark_test/cpDistMatrix.mat'
-	tc1_mat_path = '/gtmp/BoyerLab/julie/spark_test/tc1.mat'
-	tc2_mat_path = '/gtmp/BoyerLab/julie/spark_test/tc2.mat'
-	out_path = '/gtmp/BoyerLab/julie/spark_test/'
+	# Load data
+	print("Loading MATLAB data")
+	cfg_path = argv[1]
+	cfg = sp_io.loadmat(cfg_path)['cfg']
+	chunk_size = cfg[0][0]['param'][0][0]['chunkSize'][0][0]
+	cpd_path = cfg[0][0]['path'][0][0]['cpd'][0]
+	tc_path = cfg[0][0]['path'][0][0]['cpdJobMats'][0]
+	out_path = cfg[0][0]['path'][0][0]['cpdMST'][0]
+	mesh_list = [m[0][0] for m in cfg[0][0]['data'][0][0]['meshStructs']]
+
+	cp_dist = sp_io.loadmat(join(cpd_path, 'cpDistMatrix.mat'))['cpDist']
+	tc1_path = join(tc_path, '/texture_coords_1/')
+	tc2_path = join(tc_path, '/texture_coords_2/')
+	print("Finished loading MATLAB data")
+
+	# # Module-level variables
+	# mesh_path = '/gtmp/BoyerLab/julie/spark_test/mesh/'
+	# mesh_names_path = '/gtmp/BoyerLab/julie/spark_test/meshnames.mat'
+	# cp_dist_path = '/gtmp/BoyerLab/julie/spark_test/cpDistMatrix.mat'
+	# tc1_mat_path = '/gtmp/BoyerLab/julie/spark_test/tc1.mat'
+	# tc2_mat_path = '/gtmp/BoyerLab/julie/spark_test/tc2.mat'
+	# out_path = '/gtmp/BoyerLab/julie/spark_test/'
 
 	# Construct Spark Context
 	conf = SparkConf().setAppName('cpd_mst')
 	sc = SparkContext(conf=conf)
 
-	# Load data
-	print("Loading MATLAB data")
-	mesh_names = sp_io.loadmat(mesh_names_path)['f']
-	mesh_list = [join(mesh_path, (x[0][0]+'.mat')) for x in mesh_names \
-		if isfile(join(mesh_path, (x[0][0]+'.mat')))]
-	cp_dist = sp_io.loadmat(cp_dist_path)['cpDist']
-	print("Finished loading MATLAB data")
+	# # Load data
+	# print("Loading MATLAB data")
+	# mesh_names = sp_io.loadmat(mesh_names_path)['f']
+	# mesh_list = [join(mesh_path, (x[0][0]+'.mat')) for x in mesh_names \
+	# 	if isfile(join(mesh_path, (x[0][0]+'.mat')))]
+	# cp_dist = sp_io.loadmat(cp_dist_path)['cpDist']
+	# print("Finished loading MATLAB data")
 
 	# Broadcast variables
 	d = sc.broadcast(cp_dist)
