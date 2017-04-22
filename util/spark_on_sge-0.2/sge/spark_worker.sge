@@ -2,7 +2,8 @@
 #$ -cwd
 #$ -N sp_wrkr
 #$ -j y
-#$ -o $LOG_DIR/$JOB_ID_out.txt
+
+#$ -o ./sge/log/$JOB_ID_out.txt
 
 # Executes spark worker process. Should be run using qsub from base spark_on_sge
 # directory. When calling qsub, the -v flag should be used to define the

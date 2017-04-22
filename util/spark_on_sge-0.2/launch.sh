@@ -24,8 +24,8 @@ function check_free_port () {
 . "conf/spark-env.sh"
 
 # Delete logs from previous run
-rm -rf ./sge/log/*.txt
-rm -rf ./sge/log/webui
+rm -rf $LOG_DIR/*.txt
+rm -rf $LOG_DIR/webui
 
 SPARK_MASTER_HOST=$(hostname -i)
 SPARK_MASTER_PORT=$(shuf -i 7001-7099 -n 1)
@@ -40,7 +40,7 @@ do
 		-v SPARK_MASTER_HOST=$SPARK_MASTER_HOST \
 		-v SPARK_MASTER_PORT=$SPARK_MASTER_PORT \
 		-v NUM_CORES=$SPARK_WORKER_CORES -v MEM=$SPARK_WORKER_MEMORY \
-		-v LOG_DIR = $LOG_DIR \
+		-v LOG_DIR=$LOG_DIR \
 		./sge/spark_worker.sge
 done
 
