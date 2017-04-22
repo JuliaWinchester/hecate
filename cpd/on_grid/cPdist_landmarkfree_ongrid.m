@@ -10,7 +10,7 @@ load(rslt_mat);
 options.FeatureType = 'ConfMax';
 options.NumDensityPnts = 100;
 options.AngleIncrement = 0.01;
-options.NumFeatureMatch = 3; % Experimental Julie bug fix, this was 4 previously
+options.NumFeatureMatch = 4; % Experimental Julie bug fix, this was 4 previously
 options.GaussMinMatch = 'off';
 options.ProgressBar = 'off';
 
