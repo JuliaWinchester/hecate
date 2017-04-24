@@ -402,7 +402,6 @@ if __name__ == "__main__":
 	sc = SparkContext(conf=conf)
 
 	# Broadcast variables
-	d = sc.broadcast(cp_dist)
 	m = sc.broadcast(mesh_list)
 	_, _, pred = mst(cp_dist)
 	predBC = sc.broadcast(pred)
@@ -410,7 +409,6 @@ if __name__ == "__main__":
 	out_path_bc = sc.broadcast(out_path)
 	chunk_size_bc = sc.broadcast(chunk_size)
 	n_bc = sc.broadcast(len(mesh_list))
-	tc_path_bc = sc.broadcast(tc_path)
 
 	# Analysis
 	print("Starting CPD improvement")
