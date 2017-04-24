@@ -7,6 +7,13 @@ function export(SegResult, alignTeeth)
 		SegResult.align(1);
 	end
 
+	if SegResult.cfg.param.colorSegments
+		SegResult.gen_segment_color();
+	end
+
+	%%% Save result object
+	save(fullfile(outPath, 'result.mat'), 'SegResult');
+
 	%%% Write mesh, segment, group OFFs
 	SegResult.write_meshes(fullfile(outPath, 'mesh'));
 	SegResult.write_segments(fullfile(outPath, 'segment'), ...
