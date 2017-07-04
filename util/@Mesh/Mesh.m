@@ -50,6 +50,8 @@ methods
             switch(varargin{1})
                 case 'ply'
                     [obj.V,obj.F] = obj.read_ply(varargin{2});
+                    obj.V = obj.V';
+                    obj.F = obj.F';
                 case 'off'
                     [obj.V,obj.F] = obj.read_off(varargin{2});
                 case 'obj'
