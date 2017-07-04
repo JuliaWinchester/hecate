@@ -66,4 +66,5 @@ cfg.path.cpdJobMats        = fullfile(outputDir, '/etc/cpd/job_mats/');
 cfg.path.cpdMST            = fullfile(outputDir, '/etc/cpd_mst/');
 cfg.path.soften            = fullfile(outputDir, '/etc/soften/');
 cfg.path.softenJobMats	   = fullfile(outputDir, '/etc/soften/job_mats/');
+cfg.path.csc			   = fullfile(outputDir, '/etc/csc/');
 cfg.path.out               = fullfile(outputDir, '/results/');
