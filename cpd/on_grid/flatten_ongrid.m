@@ -8,7 +8,15 @@ function flatten_ongrid(mesh_file, sample_file)
 % Preprocessing
 %==========================================================================
 
-G = Mesh('off', mesh_file);
+[~, ~, meshExt] = fileparts(mesh_file);
+if strcmpi(meshExt, '.off')
+	G = Mesh('off', mesh_file);
+elseif strcmpi(meshExt, '.ply')
+	G = Mesh('ply', mesh_file);
+else
+	error('Unrecognized or unsupported mesh file extension.');
+end
+
 %G.remove_zero_area_faces();
 %G.remove_unref_verts();'
 G.DeleteIsolatedVertex();

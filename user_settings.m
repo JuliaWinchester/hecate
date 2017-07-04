@@ -14,6 +14,9 @@ restartAll = 0;
 % Directory of input mesh files
 meshDir = '~/pnas_plat/';
 
+% File format for mesh files ('off' or 'ply')
+fileFormat = 'ply';
+
 % Directory for output files
 outputDir = '/gtmp/hecate/';
 

@@ -13,7 +13,14 @@ cfg.ctrl.runSoften              = runSoften;
 cfg.ctrl.runDiffMapSpectCluster = runDiffMapSpectCluster;
 
 % Data
-[meshNames, meshPaths] = get_mesh_names(meshDir, '.off');
+if strcmpi(fileFormat, 'off')
+	[meshNames, meshPaths] = get_mesh_names(meshDir, '.off');
+elseif strcmpi(fileFormat, 'ply')
+	[meshNames, meshPaths] = get_mesh_names(meshDir, '.ply');
+else
+	error('Unrecognized or unsupported file format in user_settings.m');
+end
+
 cfg.data.meshNames = meshNames;
 cfg.data.meshPaths = meshPaths;
 
