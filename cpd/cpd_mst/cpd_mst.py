@@ -142,6 +142,17 @@ def export_cpdist(pairs, out_path):
 	sp_io.savemat(join(out_path, 'cpdist_mst.mat'), {'cpdist': cpdist})
 	print('Done exporting cpdist!')
 
+def export_r(pairs, out_path):
+	print('Exporting r...')
+	n = sqrt(len(pairs))
+	r_list = sc.parallelize(pairs).map(get_r).collect()
+	r = sp.empty([n, n], dtype=object)
+	ind = zip(*pairs)
+	for i in range(len(r_list)):
+		r[ind[0][i], ind[1][i]] = r_list[i]
+	sp_io.savemat(join(out_path, 'r_mst.mat'), {'r': r})
+	print('Done exporting r!')
+
 # Currently unused functions (i.e., functions that store result array in memory)
 
 def cpd_mst_array(d, pair_paths_collate):
@@ -381,6 +392,12 @@ def get_cpdist(uv):
 		str(u+1)+'_'+str(v+1)+'.mat'))['misc']
 	return misc[0][0]['dist'][0][0]
 
+def get_r(uv):
+	u, v = uv
+	misc = sp_io.loadmat(join(out_path_bc.value, 'misc/', str(u+1), 
+		str(u+1)+'_'+str(v+1)+'.mat'))['misc']
+	return misc[0][0]['r']	
+
 if __name__ == "__main__":
 	# Load data
 	print("Loading MATLAB data")
@@ -416,6 +433,7 @@ if __name__ == "__main__":
 	pair_paths_collate = mst_paths_by_len(sc, pairs)
 	cpd_mst_export(pair_paths_collate)
 	export_cpdist(pairs, out_path)
+	export_r(pairs, out_path)
 	print("Finished CPD improvement")
 
 	
