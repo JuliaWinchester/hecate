@@ -6,12 +6,12 @@ BaseEps     = cfg.param.epsilon;
 chunkSize   = cfg.param.chunkSize;
 flatSamples = cfg.data.flatSamples;
 softenPath  = cfg.path.softenJobMats;
-distMatPath = fullfile(cfg.path.cpdImprove, 'cpDistMatrix_MST.mat');
+distMatPath = fullfile(cfg.path.cpdMST, 'cpdist_mst.mat');
 
 %% process base diffusion
 tmp = load(distMatPath);
-n = size(tmp.cpDist, 1);
-baseDistMatrix = tmp.cpDist;
+n = size(tmp.cpdist, 1);
+baseDistMatrix = tmp.cpdist;
 baseDistMatrix = baseDistMatrix-diag(diag(baseDistMatrix));
 
 %%% only connect BNN-nearest-neighbors
