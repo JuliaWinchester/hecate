@@ -110,39 +110,44 @@ for ref=0:1
                     %%% both InterpInds1, InterpInds2 are indices on GN
                     pushSource = CORR_apply_moebius_as_matrix(m,source);
                     pushInterpCoords1 = CORR_apply_moebius_as_matrix(m,InterpCoords1);
+                    numFeatures = length(pushInterpCoords1);
                     
                     TPS_DISC_VERTICES_FEATURESM = DISCtoPLANE([real(pushInterpCoords1);imag(pushInterpCoords1)]','d2p');
                     TPS_DISC_VERTICES_FEATURESN = DISCtoPLANE([real(InterpCoords2);imag(InterpCoords2)]','d2p');
-                    
-                    if length(pushInterpCoords1)>=NumFeatureMatch
-                        if (length(pushInterpCoords1)>3) % TPS (Thin Plate Spline)
-                            tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
-                            [ftps] = TEETH_calc_tps(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN-TPS_DISC_VERTICES_FEATURESM);
-                            pt = tP + TEETH_eval_tps(ftps,tP);
-                            V1 = DISCtoPLANE(pt,'p2d')';
-                        elseif (length(pushInterpCoords1)==3) % affine transformation
-                            tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
-                            [A,b] = PlanarThreePtsDeform(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN);
-                            pt = [A,b]*[tP';ones(1,size(tP,1))];
-                            V1 = DISCtoPLANE(pt','p2d')';
-                        end
+
+                    if (numFeatures>3) % TPS (Thin Plate Spline)
+                        tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
+                        [ftps] = TEETH_calc_tps(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN-TPS_DISC_VERTICES_FEATURESM);
+                        pt = tP + TEETH_eval_tps(ftps,tP);
+                        V1 = DISCtoPLANE(pt,'p2d')';
+                        err = MapToDist(GM.V(:,sourceInds),GN.V(:,targetInds),kdtree_nearest_neighbor(V2_kdtree,V1'),VorArea);
+                    elseif (numFeatures==3) % affine transformation
+                        tP = DISCtoPLANE([real(pushSource);imag(pushSource)]','d2p');
+                        [A,b] = PlanarThreePtsDeform(TPS_DISC_VERTICES_FEATURESM,TPS_DISC_VERTICES_FEATURESN);
+                        pt = [A,b]*[tP';ones(1,size(tP,1))];
+                        V1 = DISCtoPLANE(pt','p2d')';
                         err = MapToDist(GM.V(:,sourceInds),GN.V(:,targetInds),kdtree_nearest_neighbor(V2_kdtree,V1'),VorArea);
                     else
                         err = Inf;
                     end
                 end
+
                 %%% Record if best so far
-                if ~exist('best_err','var')
-                    best_err = err;
-                    ref12 = ref;
-                    best_a = a;
-                    best_tet = tet;
-                    TPS_FEATURESM = TPS_DISC_VERTICES_FEATURESM;
-                    TPS_FEATURESN = TPS_DISC_VERTICES_FEATURESN;
-                    best_InterpInds1 = InterpInds1;
-                    best_InterpInds2 = InterpInds2;
-                else
-                    if (err < best_err)
+                if ~exist('best_numFeatures', 'var') | (numFeatures > best_numFeatures)
+                    best_numFeatures = numFeatures;
+                end
+                
+                if (numFeatures >= NumFeatureMatch)
+                    if ~exist('best_err','var')
+                        best_err = err;
+                        ref12 = ref;
+                        best_a = a;
+                        best_tet = tet;
+                        TPS_FEATURESM = TPS_DISC_VERTICES_FEATURESM;
+                        TPS_FEATURESN = TPS_DISC_VERTICES_FEATURESN;
+                        best_InterpInds1 = InterpInds1;
+                        best_InterpInds2 = InterpInds2;
+                    elseif (err < best_err)
                         best_err = err;
                         ref12 = ref;
                         best_a = a;
@@ -156,6 +161,12 @@ for ref=0:1
             end
         end
     end
+end
+
+if (best_numFeatures < NumFeatureMatch)
+    error(['Not enough features matched between %s and %s. ' ... 
+        'Expected at least %d matched features, found maximum %d matched features.'], ...
+        GM.Aux.name, GN.Aux.name, NumFeatureMatch, best_numFeatures);
 end
 
 m = [exp(1i*best_tet) -best_a*exp(1i*best_tet); -conj(best_a) 1];
