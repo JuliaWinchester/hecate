@@ -10,7 +10,7 @@ load(rslt_mat);
 options.FeatureType = featureType;
 options.NumDensityPnts = 100;
 options.AngleIncrement = 0.01;
-options.NumFeatureMatch = numFeatureMatch;
+options.NumFeatureMatch = str2double(numFeatureMatch);
 options.GaussMinMatch = 'off';
 options.ProgressBar = 'off';
 
