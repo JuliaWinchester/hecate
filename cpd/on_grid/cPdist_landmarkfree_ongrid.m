@@ -1,4 +1,4 @@
-function cPdist_landmarkfree_ongrid(G1,G2,rslt_mat,TAXAind1,TAXAind2)
+function cPdist_landmarkfree_ongrid(G1,G2,rslt_mat,TAXAind1,TAXAind2, featureType, numFeatureMatch)
 
 GM = load(G1);
 GM = GM.G;
@@ -7,10 +7,10 @@ GN = GN.G;
 
 load(rslt_mat);
 
-options.FeatureType = 'ConfMax';
+options.FeatureType = featureType;
 options.NumDensityPnts = 100;
 options.AngleIncrement = 0.01;
-options.NumFeatureMatch = 4; % Experimental Julie bug fix, this was 4 previously
+options.NumFeatureMatch = numFeatureMatch;
 options.GaussMinMatch = 'off';
 options.ProgressBar = 'off';
 
