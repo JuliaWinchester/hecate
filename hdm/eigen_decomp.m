@@ -1,8 +1,8 @@
 function [U, lambda, sqrtInvD] = eigen_decomp(H, diffMatrixSize, eigCols)
 % EIGEN_DECOMP - Eigenvector and eigenvalue decomposition
 
-sqrtD = sparse(1:diffMatrixSize,1:diffMatrixSize,sqrt(sum(H)));
-invD = sparse(1:diffMatrixSize,1:diffMatrixSize,1./sum(H));
+% sqrtD = sparse(1:diffMatrixSize,1:diffMatrixSize,sqrt(sum(H)));
+% invD = sparse(1:diffMatrixSize,1:diffMatrixSize,1./sum(H));
 sqrtInvD = sparse(1:diffMatrixSize,1:diffMatrixSize,1./sqrt(sum(H)));
 H = sqrtInvD*H*sqrtInvD;
 H = (H+H')/2;
