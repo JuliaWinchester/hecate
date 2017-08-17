@@ -3,12 +3,12 @@ function cluster_csc(cfgPath)
 	load(cfgPath); 
 	vIdxCumSum = vertex_idx_cumsum(cfg.data.flatSamples);
 	[H, diffMatrixSize] = build_diffusion(cfg, vIdxCumSum);
-	[U, lambda, sqrtInvD] = eigen_decomp(H, diffMatrixSize, cfg.param.eigCols);
+	[U, lambda, sqrtInvD] = eigen_decomp(H, diffMatrixSize, cfg.param.spec.eigCols);
 	kIdx = spectral_cluster(cfg, U, sqrtInvD);
     
-    %% compute Horizontal Base Diffusion Distance (HBDD)
-    HBDDMat = compute_hbdd_mat(U, lambda, sqrtInvD, vIdxCumSum);
-    %%% TODO: what is the best way to export this data matrix?
+	%% compute Horizontal Base Diffusion Distance (HBDD)
+	HBDDMat = compute_hbdd_mat(U, lambda, sqrtInvD, vIdxCumSum);
+	%%% TODO: what is the best way to export this data matrix?
 
 	%% Constructing and exporting results
 	result = SegResult(cfg.data.flatSamples, kIdx, vIdxCumSum, cfg);
