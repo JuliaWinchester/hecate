@@ -1,9 +1,9 @@
 function idx = spectral_cluster(cfg, U, sqrtInvD)
 % CSC - Consistent spectral clustering of surface regions
 
-nSegments     = cfg.param.segmentNum;
-eigCols       = cfg.param.eigCols;
-kMeansMaxIter = cfg.param.kMeansMaxIter;
+nSegments     = cfg.param.spec.segmentNum;
+eigCols       = cfg.param.spec.eigCols;
+kMeansMaxIter = cfg.param.spec.kMeansMaxIter;
 
 sqrtInvD(isinf(sqrtInvD)) = 0;
 SignVectors = sqrtInvD*U(:, 2:(eigCols+1));
