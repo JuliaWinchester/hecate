@@ -1,8 +1,8 @@
 function [H, diffMatrixSize] = build_diffusion(cfg, vIdxCumSum)
 % DIFFUSION - Build diffusion kernal matrix from distance matrix
 
-BNN         = cfg.param.BNN;
-BaseEps     = cfg.param.epsilon;
+BNN         = cfg.param.diff.BNN;
+BaseEps     = cfg.param.diff.epsilon;
 chunkSize   = cfg.param.chunkSize;
 flatSamples = cfg.data.flatSamples;
 softenPath  = cfg.path.softenJobMats;
