@@ -30,6 +30,8 @@ function calc_data(SegResult)
 	data.meshBorderArea = data.meshArea - data.segmentAreaTotal;
 
 	SegResult.data = data;
+	
+	SegResult.collate_seg_groups();
 
 	function A = surface_area(V, F)
 		% Expects dim x nV and dim x nF matrices

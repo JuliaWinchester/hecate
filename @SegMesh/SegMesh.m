@@ -4,6 +4,7 @@ classdef SegMesh < Mesh
 	properties
 		segment = {};
 		segmentIdx = [];
+		segGroup = 0;
 	end
 
 	methods

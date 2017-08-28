@@ -7,7 +7,7 @@ function cluster_csc(cfgPath)
 	kIdx = spectral_cluster(cfg, U, sqrtInvD);
     
 	%% compute Horizontal Base Diffusion Distance (HBDD)
-	HBDDMat = compute_hbdd_mat(U, lambda, sqrtInvD, vIdxCumSum);
+	% HBDDMat = compute_hbdd_mat(U, lambda, sqrtInvD, vIdxCumSum);
 	%%% TODO: what is the best way to export this data matrix?
 
 	%% Constructing and exporting results

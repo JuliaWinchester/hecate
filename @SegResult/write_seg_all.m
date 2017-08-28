@@ -1,7 +1,7 @@
-function write_seg_group(SegResult, filePath, colorSegments)
+function write_seg_all(SegResult, filePath, colorSegments)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
-	disp('Writing segment sample group OFF...');
+	disp('Writing whole segment sample OFF...');
 	newMesh = SegResult.mesh;
 	
 	nMesh = length(newMesh);

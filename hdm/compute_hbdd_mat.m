@@ -5,6 +5,7 @@ function [HBDDMat, HBDM] = compute_hbdd_mat( U, lambda, sqrtInvD, vIdxCumSum )
 %                mesh and the j-th mesh. In particular, HBDDMat should be a
 %                symmetric matrix with all entries nonnegative.
 
+GroupSize = length(vIdxCumSum);
 sqrtInvD(isinf(sqrtInvD)) = 0;
 BundleHDM = sqrtInvD*U(:,2:end);
 HBDM = zeros(GroupSize, nchoosek(size(BundleHDM,2),2));

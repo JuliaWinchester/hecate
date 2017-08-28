@@ -18,12 +18,13 @@ function export(SegResult, alignTeeth)
 	SegResult.write_meshes(fullfile(outPath, 'mesh'));
 	SegResult.write_segments(fullfile(outPath, 'segment'), ...
 		1, SegResult.cfg.msc.dirCollate, SegResult.cfg.param.colorSegments);
-	SegResult.write_seg_group(fullfile(outPath, 'seg_group.off'), ...
+	SegResult.write_seg_all(fullfile(outPath, 'seg_all.off'), ...
 		SegResult.cfg.param.colorSegments);
 
 	%%% Write CSV tables
 	SegResult.write_mesh_table_csv(fullfile(outPath, 'mesh.csv'));
 	SegResult.write_seg_table_csv(fullfile(outPath, 'segment.csv'));
+	SegResult.write_seg_group_csvs(fullfile(outPath, 'seg_groups.csv'), fullfile(outPath, 'mesh_seg_groups.csv'));
 
 	%%% Plot and save figures
 	SegResult.plot_freq_dist(fullfile(outPath, 'freq_dist.eps'));
