@@ -91,7 +91,7 @@ axis equal;
 axis([1,meshNum,1,meshNum]);
 
 %%% save results
-save(fullfile(resultPath, ['cpDistMatrix' fileSuffix '.mat']), 'cpDist');
-save(fullfile(resultPath, ['cpMapsMatrix' fileSuffix '.mat']), 'cpMaps');
+save(fullfile(resultPath, ['cpDistMatrix' fileSuffix '.mat']), 'cpDist', '-v7.3');
+save(fullfile(resultPath, ['cpMapsMatrix' fileSuffix '.mat']), 'cpMaps', '-v7.3');
 
 end
