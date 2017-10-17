@@ -1,7 +1,7 @@
 function write_seg_all(SegResult, filePath, colorSegments)
 % Creates and saves a mesh combining all segments from all meshes for comparison
 
-	disp('Writing whole segment sample PLY...');
+	disp('Writing whole segment sample OFF...');
 	newMesh = SegResult.mesh;
 	
 	nMesh = length(newMesh);
@@ -39,7 +39,7 @@ function write_seg_all(SegResult, filePath, colorSegments)
 	else
 		options = struct;
 	end
-	meshGroup.Write(fullfile(filePath), 'ply', options);
+	meshGroup.Write(fullfile(filePath), 'off', options);
 
 end
 
