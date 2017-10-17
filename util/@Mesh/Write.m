@@ -1,5 +1,5 @@
 function Write(G,filename,format,options)
-% Color added to .off files by Julie Winchester (julia.winchester@duke.edu)
+% Color added to .off files by Julie Winchester (julie.winchester@duke.edu)
 
 options.pointCloud = getoptions(options, 'pointCloud', 0);
 options.color = getoptions(options, 'color', []);
@@ -31,6 +31,37 @@ switch format
         end
         
         fclose(fid);
+    case 'ply'
+        fid = fopen(filename,'wt');
+        if( fid==-1 )
+            error('Can''t open the file.');
+        end
+
+        fprintf(fid, 'ply\nformat ascii 1.0\n');
+        fprintf(fid, 'element vertex %d\n', length(G.V));
+        fprintf(fid, 'property float x\nproperty float y\nproperty float z\n');
+        if ~isempty(options.color)
+            fprintf(fid, 'property uchar red\nproperty uchar green\nproperty uchar blue\nproperty uchar alpha\n');
+        end
+        if options.pointCloud==0
+            fprintf(fid, 'element face %d\n', length(G.F));
+            fprintf(fid, 'property list uchar int vertex_indices\n');
+        end
+        fprintf(fid, 'end_header\n');
+
+        % write the points & faces
+        if ~isempty(options.color)
+            c = repmat(options.color(:,1), [1, length(G.V) ]) * 255;
+            vc = vertcat(G.V, c);
+            fprintf(fid, '%f %f %f %d %d %d %d\n', vc);
+        else
+            fprintf(fid, '%f %f %f\n', G.V);
+        end
+            
+        if options.pointCloud==0
+            fprintf(fid, ['3 %d %d %d\n'], G.F - 1);
+        end
+
     case 'obj'
         fid = fopen(filename,'wt');
         if( fid==-1 )

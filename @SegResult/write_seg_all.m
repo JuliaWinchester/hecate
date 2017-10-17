@@ -39,7 +39,7 @@ function write_seg_all(SegResult, filePath, colorSegments)
 	else
 		options = struct;
 	end
-	meshGroup.Write(fullfile(filePath), 'off', options);
+	meshGroup.Write(fullfile(filePath), 'ply', options);
 
 end
 

@@ -23,8 +23,8 @@ function write_segments(SegResult, dirPath, excludeEmpty, subdirByMesh, colorSeg
 				options = struct;
 			end
 			SegResult.mesh{i}.segment{j}.Write(fullfile(d{i}, ...
-				[SegResult.mesh{i}.Aux.name '_seg' num2str(j) '.off']), ...
-				'off', options);
+				[SegResult.mesh{i}.Aux.name '_seg' num2str(j) '.ply']), ...
+				'ply', options);
 		end
 	end
 
