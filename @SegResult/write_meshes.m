@@ -7,6 +7,7 @@ function write_meshes(SegResult, dirPath)
 		disp(['Saving mesh ' SegResult.mesh{i}.Aux.name ' as OFF file...']);
 		SegResult.mesh{i}.Write(fullfile(dirPath, ...
 			[SegResult.mesh{i}.Aux.name '.ply']), 'ply', struct);
+		fclose('all');
 	end
 	
 end

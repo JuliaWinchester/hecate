@@ -16,10 +16,13 @@ function export(SegResult, alignTeeth)
 
 	%%% Write mesh, segment, group PLYs
 	SegResult.write_meshes(fullfile(outPath, 'mesh'));
+	fclose('all');
 	SegResult.write_segments(fullfile(outPath, 'segment'), ...
 		1, SegResult.cfg.msc.dirCollate, SegResult.cfg.param.colorSegments);
+	fclose('all');
 	SegResult.write_seg_all(fullfile(outPath, 'seg_all.off'), ...
 		SegResult.cfg.param.colorSegments);
+	fclose('all');
 
 	%%% Write CSV tables
 	SegResult.write_mesh_table_csv(fullfile(outPath, 'mesh.csv'));

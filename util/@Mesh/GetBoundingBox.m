@@ -17,7 +17,7 @@ if(dim~=3)
 end
 
 % [frame, ~, ~] = pca(pointCloud);
-[frame, ~, latent] = princomp(pointCloud);
+[frame, ~, latent] = pca(pointCloud);
 
 mark_position = zeros(dim);
 

@@ -14,6 +14,8 @@ else
 	if exist(cfg.path.cfg, 'file') == 2
         old = load(cfg.path.cfg, 'cfg');
         old.cfg.ctrl = cfg.ctrl;
+        old.cfg.msc = cfg.msc;
+        old.cfg.param = cfg.param;
         cfg = old.cfg;
     end
     save(cfg.path.cfg, 'cfg');

@@ -25,6 +25,7 @@ function write_segments(SegResult, dirPath, excludeEmpty, subdirByMesh, colorSeg
 			SegResult.mesh{i}.segment{j}.Write(fullfile(d{i}, ...
 				[SegResult.mesh{i}.Aux.name '_seg' num2str(j) '.ply']), ...
 				'ply', options);
+			fclose('all');
 		end
 	end
 
